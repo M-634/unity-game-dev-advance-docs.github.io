@@ -37,10 +37,10 @@ nav:
             - C#② 状態管理(Stateパターン): s2-ai-state/state-pattern.md
           - 3章 グラフィックスとゲームの絵作り:
             - グラフィックス基礎① Lighting: s3-graphics/lighting.md
-            - グラフィックス基礎② SkyBox: s3-graphics/skybox.md
-            - グラフィックス基礎③ Shader(シェーダー): s3-graphics/shader.md
-            - グラフィックス基礎④ PostProcess(ポストプロセス): s3-graphics/postprocess.md
-            - グラフィックス基礎⑤ SRP(Scriptable Render Pipeline): s3-graphics/srp.md
+            - グラフィックス基礎① Skybox: s3-graphics/skybox.md
+            - グラフィックス基礎② Shader(シェーダー): s3-graphics/shader.md
+            - グラフィックス基礎③ PostProcess(ポストプロセス): s3-graphics/postprocess.md
+            - グラフィックス基礎④ Rendering Pipeline: s3-graphics/srp.md
           - 4章 C#の応用:
             - C#③ ObserverパターンとR3: s4-csharp/r3.md
             - C#④ 設計への誘い MVPパターン: s4-csharp/mvp.md
@@ -59,10 +59,10 @@ nav:
             - １−３ 走りながら上半身だけで攻撃する: problems/s1/s1-3.md
             - １−４ 手を伸ばして押すスイッチを作る: problems/s1/s1-4.md
             - １−５ 坂道や段差で、足を地面に合わせる: problems/s1/s1-5.md
-            - １−６ 別のモーションで、振り下ろした瞬間に当てる: problems/s1/s1-6.md
-            - １−７ 歩き → 走りの切り替わりをなめらかにする: problems/s1/s1-7.md
-            - １−８ 走りながら上半身だけで攻撃する: problems/s1/s1-8.md
-            - １−９ 手を伸ばして押すスイッチを作る: problems/s1/s1-9.md
+            - １−６ 高台に上がったら、引きのカメラに切り替える: problems/s1/s1-6.md
+            - １−７ 右クリックの間だけ、肩越しの構えカメラにする: problems/s1/s1-7.md
+            - １−８ 手書きのカメラに壁の回避を入れて、Cinemachine と比べる: problems/s1/s1-8.md
+            - １−９ 敵を見ながら戦えるロックオンカメラを作る: problems/s1/s1-9.md
 
 
 # theme
