@@ -1,8 +1,5 @@
-# 授業資料（docs/lessons/）を、生徒配布用の静的 HTML にビルドする設定
-# ビルド：mkdocs build  →  output/docs/ を zip にして配布（解凍して unity-advance-docs/index.html を開く）
-# 使い方・テスト手順は src/README.md
 site_name: Unity ゲーム開発（後期）
-docs_dir: docs/lessons     # 生徒に配るのは lessons/ 以下だけ（講師用は docs/ 直下に置く）
+docs_dir: docs/lessons     # 配布用 lessons/ 以下だけ
 site_dir: output/docs
 use_directory_urls: false   # file:// で開いてもリンクが切れないように
 
@@ -61,7 +58,7 @@ nav:
             - １−５ 坂道や段差で、足を地面に合わせる: problems/s1/s1-5.md
             - １−６ 高台に上がったら、引きのカメラに切り替える: problems/s1/s1-6.md
             - １−７ 右クリックの間だけ、肩越しの構えカメラにする: problems/s1/s1-7.md
-            - １−８ 手書きのカメラに壁の回避を入れて、Cinemachine と比べる: problems/s1/s1-8.md
+            - １−８ 追従カメラを自分で書いて、Cinemachine と比べる: problems/s1/s1-8.md
             - １−９ 敵を見ながら戦えるロックオンカメラを作る: problems/s1/s1-9.md
 
 
