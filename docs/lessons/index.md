@@ -8,18 +8,12 @@
 
 #### 授業の流れ
 
-1. 各章の授業の目的の確認
-2. 講義
-3. 課題
+1. 講義
+2. 課題演習と質疑応答時間
 
-の順で行っていく。最後の課題は授業時間内でも取り組める時間を設けます。
+の順で行っていく。課題については以下の資料を確認してください
 
-課題の提出については、授業中に先生に直接見せるか、次の授業前までに授業用のslack チャンネルで報告してください。＊提出指定がないものもあります。
-
-- 課題の決まり：[課題について](problems/index.md)
-- 前期（2D 中心）：[Unity Game Dev Tutorial](https://app.notion.com/p/unity-game-dev-tutorial-32f9854442bc8008861cdee72b6597ec)
-- 授業用プロジェクト：[https://github.com/M-634/unity-game-dev-advance](https://github.com/M-634/unity-game-dev-advance)
-- 使用バージョン：Unity 6000.3.19f1 / URP 17.3
+- [課題について](problems/index.md)
 
 ## 目標
 
@@ -33,7 +27,10 @@
 
 | 章 | 単元 | 課題 |
 | --- | --- | --- |
-| 0章 | [授業ガイダンス](s0-guidance/setup.md) | [課題について](problems/index.md) |
+| 0章 | [授業ガイダンス](s0-guidance/setup.md) | |
+| | [課題について](problems/index.md) | |
+| | [授業用プロジェクトのセットアップ](s0-guidance/setup.md) | |
+| | [授業用プロジェクト構成の説明](s0-guidance/project-structure.md) | |
 | 1章 | [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md) | [1章の課題](problems/s1/index.md) |
 | | [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md) | |
 | | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md) | |
@@ -50,55 +47,6 @@
 | 付録 | [New Input Systemの使い方](appendix/input-system.md) | |
 | | [C#発展 CancellationTokenSourceとスキップ処理](appendix/unitask.md) | |
 
-## 0章 ガイダンス
+## 関連資料
 
----
-
-- [課題について](problems/index.md)
-- [授業用プロジェクトのセットアップ](s0-guidance/setup.md)
-- [授業用プロジェクト構成の説明](s0-guidance/project-structure.md)
-
-各単元を独立して扱い、課題は章ごとにまとめます。
-
-## 1章 3Dキャラクターの動作とカメラ制御
-
----
-
-**IK・FK／Animation Rigging**：関節の動きと目標位置の関係を学び、手を箱や灯火に合わせる仕組みを確認します。関連する補足資料は主教材のページ内から参照できます。
-
-- [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md)
-
-**Cinemachine／カメラ制御**：手で書いたカメラの困りごとを体験し、Cinemachine で追従・壁の回避・TPS / FPS の切り替え・画面の揺れを作ります。
-
-- [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md)
-
-課題：[1章の課題](problems/s1/index.md)
-
-## 2章 キャラクターAIとState管理
-
----
-
-## 3章 グラフィックスとゲームの絵作り
-
----
-
-- [Lighting](s3-graphics/lighting.md)（準備中）
-- [SkyBox](s3-graphics/skybox.md)（準備中）
-- [Shader(シェーダー)](s3-graphics/shader.md)（準備中）
-- [PostProcess(ポストプロセス)](s3-graphics/postprocess.md)（準備中）
-- [SRP(Scriptable Render Pipeline)](s3-graphics/srp.md)（準備中）
-
-## 4章 C#の応用
-
----
-
-## 5章 総合演習
-
----
-
-## 付録
-
----
-
-- [New Input Systemの使い方](appendix/input-system.md)
-- [C#発展 CancellationTokenSourceとスキップ処理](appendix/unitask.md)
+- 前期（2D 中心）：[Unity Game Dev Tutorial](https://app.notion.com/p/unity-game-dev-tutorial-32f9854442bc8008861cdee72b6597ec)
