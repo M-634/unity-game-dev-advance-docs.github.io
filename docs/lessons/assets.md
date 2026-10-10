@@ -112,17 +112,17 @@ flowchart LR
 
 | もの | 用途 |
 | --- | --- |
-| **Cinemachine**（2.x） | カメラ制御 |
+| **Cinemachine**（2.10.6。プロジェクトに同梱） | カメラ制御 |
 | **Timeline** | 演出・カットシーン |
 | **AI Navigation（NavMesh）** | 敵の経路探索 |
 | **Animation Rigging** | IK |
 | **ProBuilder** | ステージ制作 |
 | **Shader Graph** | シェーダー |
 | **Input System** | 入力 |
-| **UniTask** | 非同期処理 |
+| **UniTask**（プロジェクトに同梱） | 非同期処理 |
 | **R3** | Observer パターン。プロジェクトに同梱 |
 
-> ⚠️ **Cinemachine は 2.x のまま使います。** Package Manager に Update ボタンが出ていても押さないでください（3.x に上がると、お手本のコードが動かなくなります）。
+> ⚠️ **Cinemachine は 2.x を使います。** 2.10.6 をプロジェクトに同梱しています。Package Manager で Remove したり、別のバージョンを入れ直したりしないでください（3.x にすると、お手本のコードが動かなくなります）。
 
 > エフェクトは **Particle System**（Unity 標準機能）を使います。VFX Graph は使いません。
 

@@ -7,7 +7,7 @@
 
 ```mermaid
 flowchart LR
-    A["0. git を入れる"] --> B["1. Clone"]
+    A["0. Sourcetree か git を用意"] --> B["1. Clone"]
     B --> C["2. Unity 6.3 で開く"]
     C --> D["3. アセットを入れる"]
     D --> E["4. DemoTitle を再生"]
@@ -15,12 +15,18 @@ flowchart LR
 
 ---
 
-## 0. git を入れる
+## 0. Sourcetree か git を用意する
 
 ---
 
-前期の git の授業で入れた人は、この手順は飛ばして構いません。
-入っているかは、ターミナル（Windows は「コマンドプロンプト」か「PowerShell」）で確かめます。
+プロジェクトの取得（Clone）と更新（pull）に使います。**どちらか片方**があれば構いません。
+
+| 道具 | 向いている人 | 入れ方 |
+| --- | --- | --- |
+| **Sourcetree** | 前期の授業で使っていた人。画面の操作で進めたい人 | [Sourcetree 公式サイト](https://www.sourcetreeapp.com/) からダウンロードしてインストール |
+| **git（ターミナル）** | コマンドで操作したい人 | 下の表 |
+
+git が入っているかは、ターミナル（Windows は「コマンドプロンプト」か「PowerShell」）で確かめます。
 
 ```bash
 git --version
@@ -33,9 +39,7 @@ git --version
 | **Windows** | [Git for Windows](https://git-scm.com/download/win) をダウンロードしてインストール（設定はすべて初期値のままで構いません） |
 | **Mac** | ターミナルで `xcode-select --install` を実行し、出てきたダイアログで「インストール」 |
 
-> インストールしたら、**ターミナルと Unity Hub を開き直してください。** 開き直さないと git が見つかりません。
-
-> git はプロジェクトの取得だけでなく、**Unity がパッケージ（UniTask など）を取ってくるときにも使います。** git が無いと、プロジェクトを開いたときにエラーになります。
+> Sourcetree には専用の git が内蔵されています。**Sourcetree だけを使う人は、git を別に入れる必要はありません。**
 
 ---
 
@@ -48,6 +52,12 @@ git --version
 Clone の方法は2つあります。**どちらか片方**で構いません。
 
 > 保存場所は、**パスに日本語や空白を含まないフォルダ**にしてください（例：`C:\Unity\` や `~/Unity/`）。日本語のパスだと Unity がうまく動かないことがあります。
+
+!!! warning "OneDrive の中には置かないでください（Windows）"
+    Windows では、**デスクトップ**や**ドキュメント**が OneDrive と同期されていることがあります（パスに `OneDrive` と入っています）。
+    OneDrive の中に置くと、Unity が書き込み中のファイルを OneDrive が同期しようとして、**プロジェクトを開くときにエラーになります。**
+
+    `C:\Unity\` のように、**C ドライブの直下にフォルダを作って**そこに Clone してください。
 
 > Fork はしません。Clone したフォルダで作業し、授業側の更新は下の手順で取り込みます。
 
@@ -142,32 +152,30 @@ git clone https://github.com/M-634/unity-game-dev-advance.git
 
 | 項目 | 値 |
 | --- | --- |
-| Unity バージョン | **6000.3 系** |
+| Unity バージョン | **6000.3.11f1**（プロジェクトと同じバージョン） |
 | 開き方 | Unity Hub → **Add → Add project from disk** → 1. で取得したフォルダを選ぶ |
 
-1. Unity Hub の **Installs** に 6000.3 系が無ければ、先に入れておきます
+1. Unity Hub の **Installs** に **6000.3.11f1** が無ければ、先に入れておきます
 2. **Projects → Add → Add project from disk** で、取得したフォルダの**中にある** `unity-game-dev-advance` フォルダ（`Assets` フォルダがある階層）を選びます
 3. 一覧に追加されたプロジェクトをクリックして開きます
 
 ![Unity Hub の Add → Add project from disk](images/unity-hub-add-project.png){ width="720" }
 
-> 違うバージョン（6000.0 や 6000.4 など）で開くと、「バージョンを変更しますか」と聞かれます。**6000.3 系を選び直してください。**
+> 一覧の Editor version に ⚠ が付いているときは、そのバージョンが入っていません。クリックして **6000.3.11f1** をインストールしてください。
+> **別のバージョンで開かないでください**（6000.3 系のほかのバージョンでも同じです）。「バージョンを変更しますか」と聞かれたら、キャンセルして 6000.3.11f1 を選び直します。
 
-初回はパッケージの取得と準備で、**数分〜十数分**かかります。次のものは、開くだけで自動で入ります。
+初回はパッケージの取得と準備で、**数分〜十数分**かかります。授業で使うパッケージは、開くだけでそろいます。
 
-| 自動で入るもの | 用途 |
-| --- | --- |
-| Cinemachine / Timeline / AI Navigation / Animation Rigging / ProBuilder / Shader Graph / Input System | 授業で使う Unity 公式パッケージ |
-| UniTask | 非同期処理 |
-| R3 | Observer パターン（4章）。プロジェクトに同梱 |
+| もの | 入り方 | 用途 |
+| --- | --- | --- |
+| Timeline / AI Navigation / Animation Rigging / ProBuilder / Shader Graph / Input System | 開いたときに自動で取得 | 授業で使う Unity 公式パッケージ |
+| **Cinemachine 2.10.6** | プロジェクトに同梱 | カメラ制御 |
+| **UniTask** | プロジェクトに同梱 | 非同期処理 |
+| **R3** | プロジェクトに同梱 | Observer パターン（4章） |
 
-入ったかどうかは、メニューの **Window → Package Management → Package Manager** を開き、左側の **In Project** で確かめられます。
-
-![Window メニューの Package Management → Package Manager](images/package-manager-menu.png){ width="360" }
-
-> ⚠️ **Cinemachine は 2.x のまま使います。** 下の画像のように、バージョンの横に ↑（更新あり）のマークが出ていても、**Update は押さないでください。**
-
-![Package Manager で Cinemachine 2.10 を選んだところ](images/package-manager-cinemachine.png){ width="640" }
+!!! warning "Cinemachine は 2.x を使います"
+    Cinemachine には 3.x もありますが、授業のスクリプトとシーンは **2.x 用**です。3.x にすると、すべて動かなくなります。
+    2.10.6 をプロジェクトに同梱しているので、何もしなければ 2.x のままです。**Package Manager で Cinemachine を Remove したり、別のバージョンを入れ直したりしないでください。**
 
 開いた直後は **Console に赤いエラーが出ていたり、キャラクターがピンク色だったり**します。アセットをまだ入れていないためです。次の 3. で直ります。
 
@@ -207,10 +215,31 @@ git clone https://github.com/M-634/unity-game-dev-advance.git
 
 | 症状 | 原因と対処 |
 | --- | --- |
-| `git` が見つからない / パッケージの取得に失敗したというエラー | git が入っていない、または入れたあと Unity Hub を開き直していない。0. をやり直す |
+| `No 'git' executable was found` / パッケージ（UniTask）の取得に失敗したというエラー | プロジェクトが古い。最新のプロジェクトは UniTask を同梱していて、このエラーは出ない。1. の「授業側の更新を取り込む（pull）」を行う |
+| プロジェクトを開くときにエラーになる / 開くたびにファイルが壊れる（Windows） | プロジェクトが **OneDrive の中**にある。Unity と Unity Hub を閉じ、フォルダごと `C:\Unity\` などへ移動してから、Hub の **Add project from disk** で登録し直す |
 | `git pull` で `would be overwritten` と出る | 触らないファイルを書き換えている。1. の「pull でエラーが出たとき」を見る |
 | Hub でプロジェクトを選べない | 選んだフォルダが1階層ずれている。`Assets` `Packages` `ProjectSettings` が並んでいるフォルダを選ぶ |
 | キャラクターがピンク色 / Missing と出る | アセットが入っていない。[使用アセット一覧](../assets.md) の4つを入れる |
-| `The type or namespace name 'Cinemachine' could not be found` | Package Manager で Cinemachine を Update してしまった。講師に声をかける |
+| `The type or namespace name 'Cinemachine' could not be found` / Cinemachine のエラーが大量に出る | Cinemachine が 3.x になっている。下の「Cinemachine を 2.x に戻す」を見る |
+
+### Cinemachine を 2.x に戻す
+
+---
+
+以前のプロジェクトで Package Manager の Update を押した人は、`Packages` フォルダの中の2つのファイル（`manifest.json` と `packages-lock.json`）が書き換わっています。**この2つを元に戻してから pull** すれば直ります。
+
+1. **Unity を閉じます**
+2. 2つのファイルの変更を取り消します
+
+    | 方法 | 操作 |
+    | --- | --- |
+    | **Sourcetree** | **ファイルステータス**で `manifest.json` と `packages-lock.json` を右クリック → **破棄** |
+    | **ターミナル** | Clone したフォルダで `git restore unity-game-dev-advance/Packages` |
+
+3. 1. の「授業側の更新を取り込む（pull）」を行います
+4. Unity Hub からプロジェクトを開き直します
+5. Package Manager の **In Project** で、Cinemachine が **2.10.6** になっていることを確かめます
+
+> Update のあとに「Cinemachine Upgrader」でシーンを変換してしまった場合は、シーンも書き換わっています。自分で直そうとせず、講師に声をかけてください。
 
 上記で解決しない場合は、**エラーメッセージのスクリーンショット**を添えて Slack で質問してください。
