@@ -142,7 +142,7 @@ git clone https://github.com/M-634/unity-game-dev-advance.git
 
 | 項目 | 値 |
 | --- | --- |
-| Unity バージョン | **6000.3 系**（推奨：**6000.3.19f1**） |
+| Unity バージョン | **6000.3 系** |
 | 開き方 | Unity Hub → **Add → Add project from disk** → 1. で取得したフォルダを選ぶ |
 
 1. Unity Hub の **Installs** に 6000.3 系が無ければ、先に入れておきます
@@ -159,7 +159,7 @@ git clone https://github.com/M-634/unity-game-dev-advance.git
 | --- | --- |
 | Cinemachine / Timeline / AI Navigation / Animation Rigging / ProBuilder / Shader Graph / Input System | 授業で使う Unity 公式パッケージ |
 | UniTask | 非同期処理 |
-| NuGetForUnity / R3 | Observer パターン（4章） |
+| R3 | Observer パターン（4章）。プロジェクトに同梱 |
 
 入ったかどうかは、メニューの **Window → Package Management → Package Manager** を開き、左側の **In Project** で確かめられます。
 
@@ -211,7 +211,6 @@ git clone https://github.com/M-634/unity-game-dev-advance.git
 | `git pull` で `would be overwritten` と出る | 触らないファイルを書き換えている。1. の「pull でエラーが出たとき」を見る |
 | Hub でプロジェクトを選べない | 選んだフォルダが1階層ずれている。`Assets` `Packages` `ProjectSettings` が並んでいるフォルダを選ぶ |
 | キャラクターがピンク色 / Missing と出る | アセットが入っていない。[使用アセット一覧](../assets.md) の4つを入れる |
-| `The type or namespace name 'R3' could not be found` | メニューの **NuGet → Restore Packages** を実行する |
 | `The type or namespace name 'Cinemachine' could not be found` | Package Manager で Cinemachine を Update してしまった。講師に声をかける |
 
 上記で解決しない場合は、**エラーメッセージのスクリーンショット**を添えて Slack で質問してください。

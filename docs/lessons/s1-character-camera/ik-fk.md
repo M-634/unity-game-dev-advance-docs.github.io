@@ -2,18 +2,27 @@
 
 [シラバス](../index.md) ｜ 章の課題：[1章の課題](../problems/s1/index.md)
 
-## この単元の目的
+## 概要
 
 ---
 
+箱を押すモーションを再生すると、手が**箱の手前で空振り**したり、**箱にめり込んだり**します。
+モーションを作った人は、この箱の大きさも、キャラクターの立ち位置も知らないからです。
+
+「手は**ここ**に置いてほしい」という位置から逆算して、腕の曲げ方を決める。これが **IK** です。
+
 FK と IK の違いを説明し、Animation Rigging の Target・Hint・Weight を調整して、キャラクターの手を周囲の物に合わせられるようになることが目標です。
+
+> **このページの問い**：「手が箱に触れている」を、どうやってゲームに保証させるか？
 
 ## 演習の準備
 
 ---
 
-**使用シーン**：`Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Work.unity`
-**完成見本**：`Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Sample.unity`
+| 用途 | シーン |
+| --- | --- |
+| **使用シーン** | `Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Work.unity` |
+| **完成見本** | `Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Sample.unity` |
 
 演習では `DemoPlayer` と `PressBox`・`Bonfire`・`Lantern` を使います。移動は **WASD**、走る操作は **左 Shift**、箱を押す・火を移す・灯す操作は **E** です。
 
@@ -30,19 +39,6 @@ FK と IK の違いを説明し、Animation Rigging の Target・Hint・Weight �
 5. `PlayerBoxPusher` と `PlayerStaffReach` で、目標位置と Weight をどう制御しているか確認する。
 
 Humanoid 標準の `OnAnimatorIK` は、もう一つの実装方法として参照してください。
-
----
-
-## 概要
-
----
-
-箱を押すモーションを再生すると、手が**箱の手前で空振り**したり、**箱にめり込んだり**します。
-モーションを作った人は、この箱の大きさも、キャラクターの立ち位置も知らないからです。
-
-「手は**ここ**に置いてほしい」という位置から逆算して、腕の曲げ方を決める。これが **IK** です。
-
-> **このページの問い**：「手が箱に触れている」を、どうやってゲームに保証させるか？
 
 ---
 

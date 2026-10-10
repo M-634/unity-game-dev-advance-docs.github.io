@@ -120,7 +120,7 @@ flowchart LR
 | **Shader Graph** | シェーダー |
 | **Input System** | 入力 |
 | **UniTask** | 非同期処理 |
-| **NuGetForUnity / R3** | Observer パターン |
+| **R3** | Observer パターン。プロジェクトに同梱 |
 
 > ⚠️ **Cinemachine は 2.x のまま使います。** Package Manager に Update ボタンが出ていても押さないでください（3.x に上がると、お手本のコードが動かなくなります）。
 

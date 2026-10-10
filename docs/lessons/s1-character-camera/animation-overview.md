@@ -157,8 +157,10 @@ Animator の Inspector です。**Controller** と **Avatar** の2つの欄が�
 
 ---
 
-**使用シーン**：`Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Work.unity`
-**完成見本**：`Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Sample.unity`
+| 用途 | シーン |
+| --- | --- |
+| **使用シーン** | `Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Work.unity` |
+| **完成見本** | `Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Sample.unity` |
 
 > この単元は `_Work` シーンから取り組めます。
 
