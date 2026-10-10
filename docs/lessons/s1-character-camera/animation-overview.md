@@ -47,10 +47,10 @@
 
 #### アセットの導入
 
-- [ユニティちゃん（公式サイト）](https://unity3d.jp/unity-chan/)
+- [Unity-Chan! Model（Asset Store）](https://assetstore.unity.com/packages/3d/characters/unity-chan-model-18705)
 - [RPG Animations Pack FREE（Asset Store）](https://assetstore.unity.com/packages/3d/animations/rpg-animations-pack-free-288783)
 
-Asset Store のアセットは Unity アカウントで「マイアセットに追加」したあと、Unity の **Window → Package Manager → My Assets** から **Download → Import** します。ユニティちゃんは URP 対応の「サニーサイドアップ ユニティちゃん」を使用してください。
+Asset Store のアセットは Unity アカウントで「マイアセットに追加」したあと、Unity の **Window → Package Manager → My Assets** から **Download → Import** します。ユニティちゃんは「Unity-Chan! Model」を使用してください。
 
 #### 使用する部品
 
@@ -289,37 +289,6 @@ namespace Section1.AnimationRigging
 
 > `Assets/_DemoGame/` は**完成形の参考展示**です。授業中に編集はしません。
 > 演習で触るのは、同じ部品を AnimationRigging フォルダにコピーしたものです。
-
----
-
-## 💡 持ち帰る考え方
-
----
-
-> 曖昧な要求を「**観測できる瞬間**」に分解する
-
-「攻撃が当たったら」「自然に切り替わるように」「手が箱に触れているように」。どれも、そのままではプログラムに書けません。
-書けるようになるのは、**「Clip の 0.35 秒目」「速度が 2 から 5 の間」「手と箱の面の距離が 0」**のように、
-**いつ・何が・どうなっていたら成立なのか**を、目で確かめられる形に言い換えたときです。
-
-これはゲームに限りません。「いい感じにして」「使いやすくして」と頼まれたときも、
-まず**何がどうなっていたら「いい感じ」なのか**を相手と確かめるところから始めると、手が止まらなくなります。
-
----
-
-## ✅ 理解の確認
-
----
-
-関連する内容を学んだあとに、自分で確認してください。
-
-- [ ] Humanoid と Generic の違いを、「**モーションを流用できるかどうか**」で説明できる
-- [ ] モーション用モデルを **Copy From Other Avatar** で取り込み、自分のキャラクターで再生できる
-- [ ] FBX の中の Clip を **`.anim` にコピー**する理由を説明できる
-- [ ] **Animation Event** で、攻撃が当たる瞬間に `PlayerAttack` の判定を出せる
-- [ ] **Blend Tree** で、速度に応じて歩きと走りを滑らかに切り替えられる
-- [ ] **FK と IK の違い**を、「どこから動きを決めるか」で説明できる
-- [ ] IK の **Weight** を 0 と 1 の間で動かして、アニメーションと IK を切り替えられる
 
 ---
 

@@ -31,7 +31,7 @@
 
 | アセット | 用途 | 入手先 | 入れ方 |
 | --- | --- | --- | --- |
-| **ユニティちゃん 3Dモデルデータ**（Ver 1.4.0） | プレイヤー | [公式サイト](https://unity-chan.com/) | §3（公式サイト） |
+| **Unity-Chan! Model**（ユニティちゃん） | プレイヤー | [Asset Store](https://assetstore.unity.com/packages/3d/characters/unity-chan-model-18705) | §2（Asset Store） |
 | **Monster Minion Survivor PBR Polyart** | 雑魚敵 | [Asset Store](https://assetstore.unity.com/packages/3d/characters/creatures/monster-minion-survivor-pbr-polyart-269515) | §2（Asset Store） |
 | **Mini Legion Rock Golem PBR HP Polyart** | ボス | [Asset Store](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/mini-legion-rock-golem-pbr-hp-polyart-94707) | §2（Asset Store） |
 | **RPG Animations Pack FREE** | プレイヤーの攻撃モーション | [Asset Store](https://assetstore.unity.com/packages/3d/animations/rpg-animations-pack-free-288783) | §2（Asset Store） |
@@ -49,7 +49,7 @@
 ```mermaid
 flowchart LR
     A["① Asset Store のページを開く"] --> B["② 「マイアセットに追加」<br>（Unity アカウントでログイン）"]
-    B --> C["③ Unity で<br>Window → Package Manager"]
+    B --> C["③ Unity で<br>Package Manager を開く"]
     C --> D["④ 左側の<br>My Assets を選ぶ"]
     D --> E["⑤ Download → Import"]
 ```
@@ -57,26 +57,26 @@ flowchart LR
 1. 上の表のリンクから Asset Store のページを開きます
 2. **「マイアセットに追加」**（Add to My Assets）をクリックします
    - Unity アカウントでのログインが必要です。**Unity Hub と同じアカウント**でログインしてください
-3. Unity でプロジェクトを開き、メニューの **Window → Package Manager** を選びます
+3. Unity でプロジェクトを開き、メニューの **Window → Package Management → Package Manager** を選びます
+
+    ![Window メニューの Package Management → Package Manager](s0-guidance/images/package-manager-menu.png){ width="360" }
+
 4. 左側の **My Assets** を選びます
 5. 目的のアセットを選び、**Download** → **Import** を実行します
 
----
-
-## 3. ユニティちゃんの入れ方（公式サイト）
+![Package Manager の My Assets](images/package-manager-my-assets.png){ width="640" }
 
 ---
 
-ユニティちゃんは Asset Store ではなく、**公式サイトからダウンロード**します。
+## 3. ユニティちゃんを使うときの注意
 
-1. [ユニティちゃん公式サイト](https://unity-chan.com/) のダウンロードページを開きます
-2. **ユニティちゃんライセンス（UCL）** を読み、同意してダウンロードします
-3. **「ユニティちゃん 3Dモデルデータ」**（`.unitypackage`）をダウンロードします
-4. Unity のメニューの **Assets → Import Package → Custom Package...** で、ダウンロードした `.unitypackage` を選んで **Import** します
+---
 
-> ユニティちゃんには「サニーサイドアップ ユニティちゃん」など別のモデルもありますが、**この授業で使うのは「ユニティちゃん 3Dモデルデータ」**です。別のモデルを入れても、お手本作品のキャラクターはつながりません。
+ユニティちゃんも、ほかのアセットと同じく **Asset Store から入れます**（§2 の手順）。入れるのは **[Unity-Chan! Model](https://assetstore.unity.com/packages/3d/characters/unity-chan-model-18705)** です。
 
-> ユニティちゃんに同梱されているサンプルシーン（`UnityChan/Scenes/`）はピンク色になりますが、問題ありません。お手本作品はユニティちゃんのモデルとテクスチャだけを使い、マテリアルは自前のものを当てています。
+> ユニティちゃんには「サニーサイドアップ ユニティちゃん」など別のモデルもありますが、**この授業で使うのは「Unity-Chan! Model」**です。別のモデルを入れても、お手本作品のキャラクターはつながりません。
+
+> ユニティちゃんに同梱されているサンプルシーンはピンク色になりますが、問題ありません。お手本作品はユニティちゃんのモデルとテクスチャだけを使い、マテリアルは自前のものを当てています。
 
 ### ⚠️ ライセンスの順守が必要です（必ず読んでください）
 
@@ -87,7 +87,7 @@ flowchart LR
 | | 内容 |
 | --- | --- |
 | **ライセンス表記** | 作品を公開・提出するときは、**ライセンスロゴの表示**が必要です |
-| **確認すること** | ライセンスは改訂されています。**必ず公式サイトで現行版を確認**してください |
+| **確認すること** | ライセンスは改訂されています。**必ず [公式サイト](https://unity-chan.com/) で現行版を確認**してください |
 | **対象範囲** | 授業の課題提出だけでなく、**ポートフォリオとして公開する場合も対象**です |
 
 > **「無料だから自由に使える」ではありません。**
@@ -135,7 +135,7 @@ flowchart LR
 | 症状 | 原因と対処 |
 | --- | --- |
 | **キャラクターがピンク色 / Missing と出る** | 必須のアセットが入っていない。§1 の4つが入っているか確認する |
-| **ユニティちゃんだけ Missing のまま** | 別のユニティちゃん（サニーサイドアップなど）を入れている。「ユニティちゃん 3Dモデルデータ」を入れる |
+| **ユニティちゃんだけ Missing のまま** | 別のユニティちゃん（サニーサイドアップなど）を入れている。「Unity-Chan! Model」を入れる |
 | **「マイアセットに追加」が押せない** | Unity アカウントにログインしていない |
 | **Package Manager の My Assets に出てこない** | Asset Store と Unity Hub で別のアカウントにログインしている。同じアカウントにそろえる |
 | **インポート時に上書き確認が出る** | 基本は上書きで問題なし。不安な場合は講師に確認してください |

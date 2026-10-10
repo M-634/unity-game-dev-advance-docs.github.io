@@ -18,6 +18,7 @@
 
 - 課題の決まり：[課題について](problems/index.md)
 - 前期（2D 中心）：[Unity Game Dev Tutorial](https://app.notion.com/p/unity-game-dev-tutorial-32f9854442bc8008861cdee72b6597ec)
+- 授業用プロジェクト：[https://github.com/M-634/unity-game-dev-advance](https://github.com/M-634/unity-game-dev-advance)
 - 使用バージョン：Unity 6000.3.19f1 / URP 17.3
 
 ## 目標
@@ -39,7 +40,7 @@
 | 2章 | [キャラクターAI](s2-ai-state/character-ai.md)（準備中） | 準備中 |
 | | [C#① Interface(インターフェース)とpolymorphism（ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
 | | [C#② 状態管理(Stateパターン)](s2-ai-state/state-pattern.md)（準備中） | |
-| 3章 | グラフィックス基礎① [Lighting](s3-graphics/lighting.md)（準備中）・[Skybox](s3-graphics/skybox.md)（準備中） | 準備中 |
+| 3章 | [グラフィックス基礎① Lighting](s3-graphics/lighting.md)（準備中）・[Skybox](s3-graphics/skybox.md)（準備中） | 準備中 |
 | | [グラフィックス基礎② Shader](s3-graphics/shader.md)（準備中） | |
 | | [グラフィックス基礎③ PostProcess](s3-graphics/postprocess.md)（準備中） | |
 | | [グラフィックス基礎④ Rendering Pipeline](s3-graphics/srp.md)（準備中） | |

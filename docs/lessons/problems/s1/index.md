@@ -15,5 +15,5 @@
 | １−５ | ★★★★★ | [坂道や段差で、足を地面に合わせる](s1-5.md) | [IKとFK、AnimationRigging](../../s1-character-camera/ik-fk.md) |
 | １−６ | ★★☆☆☆ | [高台に上がったら、引きのカメラに切り替える](s1-6.md) | [Cinemachineとカメラ制御](../../s1-character-camera/cinemachine.md) |
 | １−７ | ★★★☆☆ | [右クリックの間だけ、肩越しの構えカメラにする](s1-7.md) | [Cinemachineとカメラ制御](../../s1-character-camera/cinemachine.md) |
-| １−８ | ★★★★☆ | [手書きのカメラに壁の回避を入れて、Cinemachine と比べる](s1-8.md) | [Cinemachineとカメラ制御](../../s1-character-camera/cinemachine.md) |
+| １−８ | ★★★★☆ | [追従カメラを自分で書いて、Cinemachine と比べる](s1-8.md) | [Cinemachineとカメラ制御](../../s1-character-camera/cinemachine.md) |
 | １−９ | ★★★★★ | [敵を見ながら戦えるロックオンカメラを作る](s1-9.md) | [Cinemachineとカメラ制御](../../s1-character-camera/cinemachine.md) |

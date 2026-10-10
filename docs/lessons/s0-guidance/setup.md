@@ -43,17 +43,54 @@ git --version
 
 ---
 
-授業用プロジェクトのリポジトリ：**（後日ここに URL を掲載します）**
+授業用プロジェクトのリポジトリ：**[https://github.com/M-634/unity-game-dev-advance](https://github.com/M-634/unity-game-dev-advance)**
 
-ターミナルで、保存したいフォルダに移動してから Clone します。
-
-```bash
-git clone <リポジトリの URL>
-```
+Clone の方法は2つあります。**どちらか片方**で構いません。
 
 > 保存場所は、**パスに日本語や空白を含まないフォルダ**にしてください（例：`C:\Unity\` や `~/Unity/`）。日本語のパスだと Unity がうまく動かないことがあります。
 
 > Fork はしません。Clone したフォルダで作業し、授業側の更新は下の手順で取り込みます。
+
+### Sourcetree で Clone する
+
+---
+
+1. リポジトリのページを開き、**Code** → **HTTPS** の URL を、右のコピーボタンでコピーします
+
+    ![GitHub の Code ボタンから URL をコピー](images/github-clone-url.png){ width="640" }
+
+2. Sourcetree を開き、Clone の画面を出します
+
+    | OS | 操作 |
+    | --- | --- |
+    | **Windows** | 上のタブの **＋** → **Clone** |
+    | **Mac** | **新規...** → **URL からクローン** |
+
+3. 次の3つを入力します
+
+    | 項目 | 入れるもの |
+    | --- | --- |
+    | **ソース URL**（Windows は「元のパス / URL」） | コピーした URL を貼り付ける |
+    | **保存先のパス** | 保存したいフォルダ（例：`C:\Unity\unity-game-dev-advance`） |
+    | **名前** | 自動で入ります。そのままで構いません |
+
+4. 「これは Git リポジトリです」と表示されたら、**クローン**を押します
+
+    ![Sourcetree のリポジトリをクローン画面](images/sourcetree-clone.png){ width="520" }
+
+5. ダウンロードが終わり、左側に `master` ブランチが表示されれば完了です
+
+> 「これは Git リポジトリです」と出ないときは、URL のコピーミスか、ネットワークにつながっていません。
+
+### ターミナルで Clone する
+
+---
+
+保存したいフォルダに移動してから、次のコマンドを実行します。
+
+```bash
+git clone https://github.com/M-634/unity-game-dev-advance.git
+```
 
 ### 触ってよいファイル
 
@@ -77,11 +114,12 @@ git clone <リポジトリの URL>
 授業の進み具合に合わせて、単元のシーンやスクリプトを追加・修正することがあります。**Slack で「更新しました」と連絡したら**、次の手順で取り込んでください。
 
 1. **Unity を閉じます**（開いたままだと、取り込んだファイルが正しく読み込まれないことがあります）
-2. ターミナルで、Clone したフォルダに移動して pull します
+2. pull します
 
-```bash
-git pull
-```
+    | 方法 | 操作 |
+    | --- | --- |
+    | **Sourcetree** | プロジェクトを開き、上の **プル** → そのまま **OK** |
+    | **ターミナル** | Clone したフォルダに移動して `git pull` |
 
 3. Unity Hub からプロジェクトを開き直します
 
@@ -91,6 +129,8 @@ git pull
     ```bash
     git restore <エラーに出ているファイル>
     ```
+
+    Sourcetree では、**ファイルステータス**でそのファイルを右クリック → **破棄**を選びます。
 
     `_Work.unity` で出たときは、自分の作業が消えてしまうので、**取り消す前に講師に声をかけてください。**
 
@@ -106,8 +146,10 @@ git pull
 | 開き方 | Unity Hub → **Add → Add project from disk** → 1. で取得したフォルダを選ぶ |
 
 1. Unity Hub の **Installs** に 6000.3 系が無ければ、先に入れておきます
-2. **Projects → Add → Add project from disk** で、取得したフォルダ（`Assets` フォルダがある階層）を選びます
+2. **Projects → Add → Add project from disk** で、取得したフォルダの**中にある** `unity-game-dev-advance` フォルダ（`Assets` フォルダがある階層）を選びます
 3. 一覧に追加されたプロジェクトをクリックして開きます
+
+![Unity Hub の Add → Add project from disk](images/unity-hub-add-project.png){ width="720" }
 
 > 違うバージョン（6000.0 や 6000.4 など）で開くと、「バージョンを変更しますか」と聞かれます。**6000.3 系を選び直してください。**
 
@@ -118,6 +160,14 @@ git pull
 | Cinemachine / Timeline / AI Navigation / Animation Rigging / ProBuilder / Shader Graph / Input System | 授業で使う Unity 公式パッケージ |
 | UniTask | 非同期処理 |
 | NuGetForUnity / R3 | Observer パターン（4章） |
+
+入ったかどうかは、メニューの **Window → Package Management → Package Manager** を開き、左側の **In Project** で確かめられます。
+
+![Window メニューの Package Management → Package Manager](images/package-manager-menu.png){ width="360" }
+
+> ⚠️ **Cinemachine は 2.x のまま使います。** 下の画像のように、バージョンの横に ↑（更新あり）のマークが出ていても、**Update は押さないでください。**
+
+![Package Manager で Cinemachine 2.10 を選んだところ](images/package-manager-cinemachine.png){ width="640" }
 
 開いた直後は **Console に赤いエラーが出ていたり、キャラクターがピンク色だったり**します。アセットをまだ入れていないためです。次の 3. で直ります。
 
