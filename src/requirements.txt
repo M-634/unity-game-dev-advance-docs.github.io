@@ -1,0 +1,4 @@
+# 授業資料 HTML ビルド用（講師PCのみ）。MkDocs 2.0 はプラグイン・テーマ非互換のため 1.x に固定
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+pymdown-extensions==10.21.3

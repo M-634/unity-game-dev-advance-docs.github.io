@@ -1,0 +1,122 @@
+# 授業資料（docs/lessons/）を、生徒配布用の静的 HTML にビルドする設定
+# ビルド：mkdocs build  →  output/docs/ を zip にして配布（解凍して unity-advance-docs/index.html を開く）
+# 使い方・テスト手順は src/README.md
+site_name: Unity ゲーム開発（後期）
+docs_dir: docs/lessons     # 生徒に配るのは lessons/ 以下だけ（講師用は docs/ 直下に置く）
+site_dir: output/docs
+use_directory_urls: false   # file:// で開いてもリンクが切れないように
+
+# lessons/ の中で配布しないもの
+exclude_docs: |
+  *.bak
+  .DS_Store
+
+# nav
+nav:
+   - 概要:
+        - この授業について:
+            - シラバス: index.md
+            - 課題について: problems/index.md
+        - セットアップ:
+            - 授業用プロジェクトのセットアップ: s0-guidance/setup.md
+            - 授業用プロジェクト構成の説明: s0-guidance/project-structure.md
+            - 補足資料：使用アセット一覧: assets.md
+   - 講義資料:
+      - 目次:
+          - 1章 3Dキャラクターの動作とカメラ制御:
+            - IKとFK、AnimationRigging: s1-character-camera/ik-fk.md
+            - Cinemachineとカメラ制御: s1-character-camera/cinemachine.md
+            - Timeline(タイムライン)とカットシーン制作: s1-character-camera/timeline.md
+            - 補足資料①：3Dアニメーションの全体像: s1-character-camera/animation-overview.md
+            - 補足資料②：Rig と Avatar: s1-character-camera/rig-avatar.md
+            - 補足資料③：モーションの取り込みとコピー: s1-character-camera/motion-import.md
+            - 補足資料④：アニメーションブレンド: s1-character-camera/animation-blend.md
+          - 2章 キャラクターAIとState管理:
+            - キャラクターAI: s2-ai-state/character-ai.md
+            - C#① Interface とポリモーフィズム: s2-ai-state/interface-polymorphism.md
+            - C#② 状態管理(Stateパターン): s2-ai-state/state-pattern.md
+          - 3章 グラフィックスとゲームの絵作り:
+            - グラフィックス基礎① Lighting: s3-graphics/lighting.md
+            - グラフィックス基礎② SkyBox: s3-graphics/skybox.md
+            - グラフィックス基礎③ Shader(シェーダー): s3-graphics/shader.md
+            - グラフィックス基礎④ PostProcess(ポストプロセス): s3-graphics/postprocess.md
+            - グラフィックス基礎⑤ SRP(Scriptable Render Pipeline): s3-graphics/srp.md
+          - 4章 C#の応用:
+            - C#③ ObserverパターンとR3: s4-csharp/r3.md
+            - C#④ 設計への誘い MVPパターン: s4-csharp/mvp.md
+          - 5章 総合演習:
+            - 総合演習: s5-final/final-project.md
+      - 付録:
+        - New Input Systemの使い方: appendix/input-system.md
+        - C#発展 CancellationTokenSourceとスキップ処理: appendix/unitask.md
+   - 課題:
+      - 課題リスト:
+        - 1章課題リスト: problems/s1/index.md
+      - 各章課題ページ:
+        - 1章問題集: 
+            - １−１ 別のモーションで、振り下ろした瞬間に当てる: problems/s1/s1-1.md
+            - １−２ 歩き → 走りの切り替わりをなめらかにする: problems/s1/s1-2.md
+            - １−３ 走りながら上半身だけで攻撃する: problems/s1/s1-3.md
+            - １−４ 手を伸ばして押すスイッチを作る: problems/s1/s1-4.md
+            - １−５ 坂道や段差で、足を地面に合わせる: problems/s1/s1-5.md
+            - １−６ 別のモーションで、振り下ろした瞬間に当てる: problems/s1/s1-6.md
+            - １−７ 歩き → 走りの切り替わりをなめらかにする: problems/s1/s1-7.md
+            - １−８ 走りながら上半身だけで攻撃する: problems/s1/s1-8.md
+            - １−９ 手を伸ばして押すスイッチを作る: problems/s1/s1-9.md
+
+
+# theme
+theme:
+  name: material
+  language: ja
+  custom_dir: src/overrides
+  font: false               # Google Fonts を読まない（オフライン用）
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle: { icon: material/brightness-7, name: ダークモードへ }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      toggle: { icon: material/brightness-4, name: ライトモードへ }
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - search.highlight
+
+plugins:
+  - search:
+      lang: ja
+  - offline                 # file:// でも検索が動く
+
+# 外部 CDN を読まない（オフライン用）。どちらも src/overrides/assets/javascripts/ に同梱
+#   iframe-worker：file:// で検索を動かすための shim（offline プラグインが既定で unpkg から読むのを差し替え）
+extra:
+  polyfills:
+    - assets/javascripts/iframe-worker-shim.js
+extra_javascript:
+  - assets/javascripts/mermaid.min.js
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

@@ -16,3 +16,22 @@ _site/
 # counterproductive to check this file into the repository.
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
+
+
+# 授業資料の HTML ビルド出力（mkdocs build）と配布用 zip
+/output/
+/.venv/
+
+# local作業用・バックアップ
+/.local/
+/_bak/
+*.bak
+CLAUDE.md
+.claude
+
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
