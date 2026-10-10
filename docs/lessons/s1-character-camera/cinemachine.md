@@ -2,21 +2,31 @@
 
 [シラバス](../index.md) ｜ 章の課題：[1章の課題](../problems/s1/index.md)
 
-## この単元の目的
+## 概要
 
 ---
+
+カメラは「置けば映る」ものではありません。キャラクターを追いかけ、画面のちょうどよい位置に収め、場面によっては視点そのものを持ち替えます。
+これを自分でスクリプトに書くと、追従の遅れ・構図・切り替えのなめらかさ・壁の回避と、書くものがどこまでも増えていきます。
+
+**Cinemachine** は、こうしたカメラの仕事を引き受ける Unity 公式のパッケージです。
+このプロジェクトには **Cinemachine 2.10**（`using Cinemachine;`）が入っています。
 
 Cinemachine の **Brain・Virtual Camera・Priority・Blend** の仕組みを理解し、
 **対象を追いかけるカメラ**と**カメラの切り替え**を、スクリプトを書かずに作れるようになることが目標です。
 最後に、3Dキャラクター（`DemoPlayer`）で同じ仕組みがどう使われているかを確認します。
 
+> **この単元の問い**：カメラの動きを、スクリプトを書かずにどこまで作れるか？
+
 ## 演習の準備
 
 ---
 
-**使用シーン**：`Assets/Application/Week02-Cinemachine/Cinemachine_Work.unity`
-**完成見本**：`Assets/Application/Week02-Cinemachine/Cinemachine_Sample.unity`
-**活用例を見るシーン**：`Assets/Application/Week01-Animation/Week01-Animation_Sample.unity`
+| 用途 | シーン |
+| --- | --- |
+| **使用シーン** | `Assets/Application/Section1-CharacterCamera/Cinemachine/Cinemachine_Work.unity` |
+| **完成見本** | `Assets/Application/Section1-CharacterCamera/Cinemachine/Cinemachine_Sample.unity` |
+| **活用例を見るシーン** | `Assets/Application/Section1-CharacterCamera/AnimationRigging/AnimationRigging_Sample.unity` |
 
 `Cinemachine_Work` には、次のものだけを置いてあります。
 
@@ -27,7 +37,7 @@ Cinemachine の **Brain・Virtual Camera・Priority・Blend** の仕組みを理
 | `Target` | カメラで追いかける対象（Capsule）。`TargetMover` で左右に往復する。タグは `Player` |
 | `Wall` | 壁。発展の「壁を避ける」で使う |
 
-`TargetMover`（`Week02-Cinemachine/Scripts/`）は、`Target` を一定の速さで往復させるだけの配布スクリプトです。
+`TargetMover`（`Cinemachine/Scripts/`）は、`Target` を一定の速さで往復させるだけの配布スクリプトです。
 止めたいときは、Inspector でコンポーネントのチェックを外してください。
 
 ## 授業の進め方
@@ -44,17 +54,9 @@ Cinemachine の **Brain・Virtual Camera・Priority・Blend** の仕組みを理
 
 ---
 
-## 概要
+## Cinemachine の仕組み
 
 ---
-
-カメラは「置けば映る」ものではありません。キャラクターを追いかけ、画面のちょうどよい位置に収め、場面によっては視点そのものを持ち替えます。
-これを自分でスクリプトに書くと、追従の遅れ・構図・切り替えのなめらかさ・壁の回避と、書くものがどこまでも増えていきます。
-
-**Cinemachine** は、こうしたカメラの仕事を引き受ける Unity 公式のパッケージです。
-このプロジェクトには **Cinemachine 2.10**（`using Cinemachine;`）が入っています。
-
-> **この単元の問い**：カメラの動きを、スクリプトを書かずにどこまで作れるか？
 
 ### Brain と Virtual Camera
 
@@ -84,12 +86,61 @@ flowchart LR
 
 Virtual Camera は何台あっても、画面に映るのは Priority がいちばん高い1台です。残りは待機しています。
 
+![Hierarchy に並んだ Main Camera と Virtual Camera](images/cm-hierarchy.png){ width="480" }
+
+Hierarchy では、Brain の付いた `Main Camera` の右に Cinemachine のアイコンが出ます。Virtual Camera は、それぞれ別の GameObject です。
+
 | 用語 | 意味 |
 | --- | --- |
 | **Priority** | Virtual Camera の優先度。**値がいちばん高いもの**が映る |
 | **Blend** | 映るカメラが変わったとき、前のカメラから次のカメラへ**なめらかに移る**時間と動き方。Brain の **Default Blend** で決める |
 | **Follow** | カメラが**ついていく**対象（位置） |
 | **Look At** | カメラが**向く**対象（向き） |
+
+### Cinemachine Brain
+
+---
+
+`Main Camera` に付くコンポーネントです。Virtual Camera を最初に作ったときに、自動で付きます。
+
+![Cinemachine Brain の Inspector](images/cm-brain-inspector.png){ width="600" }
+
+| 設定項目 | 内容 |
+| --- | --- |
+| **Live Camera** | 今映っている Virtual Camera。**映らないときは、まずここを見る** |
+| **Live Blend** | 切り替えの途中のとき、どのカメラからどのカメラへ移っているか |
+| **Show Debug Text** | 今映っているカメラの名前を、Game ビューに表示する |
+| **World Up Override** | 「上」の向きを変える。ふつうは空のまま |
+| **Update Method** | カメラの位置を計算するタイミング。ふつうは Smart Update のまま |
+| **Default Blend** | カメラが切り替わるときの**動き方と時間** |
+| **Custom Blends** | 「このカメラからこのカメラへ」の組み合わせごとに、Blend を決める |
+
+今日触るのは **Live Camera** と **Default Blend** の2つです。
+
+### Cinemachine Virtual Camera
+
+---
+
+**GameObject → Cinemachine → Virtual Camera** で作る GameObject に付いているコンポーネントです。
+
+![Cinemachine Virtual Camera の Inspector](images/cm-vcam-inspector.png){ width="600" }
+
+| 設定項目 | 内容 |
+| --- | --- |
+| **Status** | このカメラの今の状態。Live（映っている）／ Standby（待機中）／ Disabled |
+| **Solo** | Priority に関係なく、このカメラを一時的に映す。調整中の確認に使う |
+| **Game Window Guides** | Game ビューに、構図のガイドを表示する |
+| **Save During Play** | 再生中に変えた値を、再生を止めても残す |
+| **Priority** | 優先度。値がいちばん高い Virtual Camera が映る |
+| **Follow** | カメラが**ついていく**対象 |
+| **Look At** | カメラが**向く**対象 |
+| **Lens** | 画角（Vertical FOV）や、映す距離の範囲 |
+| **Body** | カメラを**どこに置くか**の決め方 |
+| **Aim** | カメラが**どこを向くか**の決め方 |
+| **Noise** | 手持ちカメラのような、細かい揺れを足す |
+| **Extensions** | 壁の回避など、機能をあとから足す |
+
+まずは **Priority・Follow・Look At・Body・Aim** の5項目を理解すれば、基本の操作はできます。
 
 ### Body と Aim
 
@@ -107,11 +158,44 @@ Virtual Camera は、**Body（どこに置くか）**と **Aim（どこを向く
 | | POV | 入力（マウス）で向きを変える。FPS に使う |
 | | Hard Look At | Look At の対象を、常に画面の中央に入れる |
 
-今日のハンズオンでは、いちばん基本の **Transposer ＋ Composer** を使います。
+今日の演習では、いちばん基本の **Transposer ＋ Composer** を使います。
+
+#### Transposer（Body）
+
+Follow の対象から、決めた距離だけ離れた位置にカメラを置きます。
+
+![Body を Transposer にしたときの Inspector](images/cm-body-transposer.png){ width="600" }
+
+| 設定項目 | 内容 |
+| --- | --- |
+| **Binding Mode** | 対象が向きを変えたとき、カメラも一緒に回り込むかどうか。World Space にすると回り込まない |
+| **Follow Offset** | 対象から見て、カメラをどこに置くか |
+| **X Damping ／ Y Damping ／ Z Damping** | 対象が動いたとき、カメラが**遅れてついていく**量。0 で遅れなし |
+
+![Scene ビューに表示される Follow Offset](images/cm-follow-offset.png){ width="640" }
+
+Follow Offset は、対象（赤い Cube）からカメラまでのずれです。
+
+#### Composer（Aim）
+
+Look At の対象が、画面の決めた位置に入るようにカメラを向けます。
+
+![Aim を Composer にしたときの Inspector](images/cm-aim-composer.png){ width="600" }
+
+| 設定項目 | 内容 |
+| --- | --- |
+| **Tracked Object Offset** | 対象のどこを狙うか。足元ではなく頭を狙いたいときなどに、ずらす |
+| **Lookahead Time** | 対象の進む先を、先回りして映す |
+| **Horizontal Damping ／ Vertical Damping** | 対象のほうへ**向き直る**ときの遅れ |
+| **Screen X ／ Screen Y** | 対象を画面のどこに置くか。0.5 が中央 |
+| **Dead Zone Width ／ Dead Zone Height** | 対象がこの範囲にいる間は、カメラを動かさない |
+| **Soft Zone Width ／ Soft Zone Height** | 対象がこの範囲に入ると、カメラがゆっくり向き直る |
+
+> このページの Inspector と Scene ビューの画像は、Cinemachine 2.10 の公式マニュアルのものです。名前や値は、演習のシーンとは異なります。
 
 ---
 
-## ハンズオン：追いかけるカメラを作る
+## 追いかけるカメラを作る
 
 ---
 
@@ -168,6 +252,8 @@ Brain が、Virtual Camera の位置と向きを毎フレーム `Main Camera` �
 | 青い領域 | **Soft Zone** | 対象がここに入ると、カメラが**ゆっくり**向きを直す |
 | 赤い領域 | 侵入禁止 | 対象をここには入れない。入りそうになると、カメラは**すぐに**向きを直す |
 
+![Game ビューに表示されるガイド](images/cm-game-window-guides.png){ width="512" }
+
 次の値を順番に変えて、動きの違いを見てください。
 
 | 項目 | 試す値 | 見るところ |
@@ -180,7 +266,8 @@ Brain が、Virtual Camera の位置と向きを毎フレーム `Main Camera` �
 > **Damping は「遅れ」の量です。** 0 にすると対象に貼り付いたように動き、大きくすると重たいカメラになります。
 > アクションゲームは小さめ、ゆったり歩くゲームは大きめ、というように**ゲームの手ざわり**を決める値です。
 
-> ⚠️ 再生中に変えた値は、再生を止めると元に戻ります。残したい値は、止める前にメモしておいてください。
+> ⚠️ 再生中に変えた値は、再生を止めると元に戻ります。
+> Virtual Camera の **Save During Play** にチェックを入れておくと、Virtual Camera の値は止めても残ります。
 
 調整が終わったら、次の値にして再生を止めます。
 
@@ -273,8 +360,8 @@ Virtual Camera に**拡張（Extension）**を足すと、これを避けられ�
 
 ---
 
-ここからは、`Week01-Animation_Sample` を開いて、**同じ仕組みが3Dキャラクターでどう使われているか**を見ます。
-新しい仕組みは出てきません。ハンズオンで触った Follow・Look At・Priority・Blend の組み合わせです。
+ここからは、`AnimationRigging_Sample` を開いて、**同じ仕組みが3Dキャラクターでどう使われているか**を見ます。
+新しい仕組みは出てきません。演習で触った Follow・Look At・Priority・Blend の組み合わせです。
 
 | 操作 | キーボード・マウス | ゲームパッド |
 | --- | --- | --- |
@@ -315,7 +402,7 @@ flowchart LR
 
 ---
 
-`Assets/Application/Week01-Animation/Prefabs/DemoPlayer.prefab` を開いてください。
+`Assets/Application/Section1-CharacterCamera/AnimationRigging/Prefabs/DemoPlayer.prefab` を開いてください。
 
 | 子の GameObject | 位置 | 使われ方 |
 | --- | --- | --- |
@@ -324,7 +411,7 @@ flowchart LR
 
 どちらも、何もコンポーネントが付いていない空の GameObject です。
 
-> ハンズオンでは `Target` そのものを Follow と Look At に入れました。
+> 演習では `Target` そのものを Follow と Look At に入れました。
 > キャラクターでは、**狙いたい高さに空の GameObject を置いて**、それを対象にします。ルートは足元にあるためです。
 
 > 追従先を頭のボーンにしないのは、頭はモーションで揺れて酔いやすいからです。プレイヤーのルートの子に、固定の高さで置いています。
@@ -334,7 +421,7 @@ flowchart LR
 ---
 
 シーンの `CM_TPS` を選んでください。これは **FreeLook Camera** です。
-ハンズオンの「Transposer ＋ Composer」を TPS 用にまとめたもので、上・中・下の3段の円（Orbit）の上をカメラが動きます。
+演習の「Transposer ＋ Composer」を TPS 用にまとめたもので、上・中・下の3段の円（Orbit）の上をカメラが動きます。
 
 | 項目 | 値 | 意味 |
 | --- | --- | --- |
@@ -345,6 +432,8 @@ flowchart LR
 | **Orbits → Top Rig** | Height 4.5 ／ Radius 1.75 | 見下ろすときの高さと距離 |
 | **Orbits → Middle Rig** | Height 2.5 ／ Radius 3 | ふだんの高さと距離 |
 | **Orbits → Bottom Rig** | Height 0.4 ／ Radius 1.3 | 見上げるときの高さと距離 |
+
+![Scene ビューに表示される FreeLook の3段の円](images/cm-freelook-orbits.png){ width="432" }
 
 Scene ビューに、3段の赤い円が表示されます。マウスを上下に動かすと、カメラはこの円をつないだ面の上を移動します。
 
@@ -359,7 +448,7 @@ Scene ビューに、3段の赤い円が表示されます。マウスを上下�
 
 ---
 
-`CM_FPS` を選んでください。こちらはハンズオンと同じ **Virtual Camera** で、Body と Aim の組み合わせだけが違います。
+`CM_FPS` を選んでください。こちらは演習と同じ **Virtual Camera** で、Body と Aim の組み合わせだけが違います。
 
 | 項目 | 値 | 意味 |
 | --- | --- | --- |
@@ -383,7 +472,7 @@ if (_tpsCamera != null) _tpsCamera.Priority = mode == CameraMode.Tps ? _livePrio
 if (_fpsCamera != null) _fpsCamera.Priority = mode == CameraMode.Fps ? _livePriority : _standbyPriority;
 ```
 
-`CameraSystem` に付いている `CameraModeSwitcher`（`Week01-Animation/Scripts/Camera/`）の一部です。
+`CameraSystem` に付いている `CameraModeSwitcher`（`AnimationRigging/Scripts/Camera/`）の一部です。
 映すほうを 20、待機するほうを 0 にしています。
 
 切り替わりのなめらかさは、`Main Camera` の Brain の **Default Blend（Ease In Out ／ 0.3 秒）**が受け持っています。
@@ -427,7 +516,7 @@ TPS でも FPS でも同じように揺れるのは、両方に Listener が付�
 | カメラが対象のほうを**向かない** | **Look At** が空／Aim が Do nothing になっている |
 | Game ビューに**ガイドが出ない** | Virtual Camera を選んでいない／**Game Window Guides** のチェックが外れている |
 | Priority を変えると**一瞬で飛ぶ** | Brain の **Default Blend** が Cut になっている |
-| 調整した値が**消えた** | 再生中に変えた値は、止めると元に戻る。止めてから入れ直す |
+| 調整した値が**消えた** | 再生中に変えた値は、止めると元に戻る。Virtual Camera の **Save During Play** にチェックを入れてから調整する |
 | Collider を付けたのに**対象に当たって寄りすぎる** | **Ignore Tag** に対象のタグが入っていない |
 | FreeLook を置いて再生すると **InvalidOperationException** が出る | **Cinemachine Input Provider** が付いていない。付けて XY Axis に Look を入れる |
 
