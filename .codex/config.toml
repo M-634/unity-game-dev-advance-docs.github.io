@@ -1,0 +1,6 @@
+# 共通ルールはルートの AGENTS.md を自動読込する。
+# Claude Code は CLAUDE.md の @AGENTS.md から同じルールを読む。
+# プレビュー: .venv/Scripts/python.exe src/docs.py serve
+# ビルド: .venv/Scripts/python.exe src/docs.py build
+# モデル・権限・MCP は各ユーザーの設定を継承する。
+project_doc_max_bytes = 32768
