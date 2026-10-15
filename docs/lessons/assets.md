@@ -17,9 +17,11 @@
 - プロジェクトに入っているのは、アセットを**参照する側**（Prefab・マテリアル・Animator Controller など）だけです
 
 そのため、プロジェクトを開いた直後は **モデルが表示されない／ピンク色になる／Missing と出る** 状態です。
-下のアセットを入れると、参照がつながって直ります。
+**配布された `.prefab` からモデルデータを読み込めるようにするため、指定のアセットを Asset Store からインポートしてください。** `Assets/Application/_CommonSectionAssets/Prefabs/` の演習用 Prefab も、外部のモデルやアニメーションを参照しています。Prefab だけを取得しても、参照先のデータはそろいません。
 
-> エラーが出ていても慌てないでください。アセットを入れる前は出て当たり前です。
+「マイアセットに追加」や Download だけでは完了ではありません。授業用プロジェクトへの **Import** まで行う必要があります。
+
+> インポート後も Missing や赤いエラーが残る場合は、Console の内容を確認して講師に相談してください。
 
 ---
 
@@ -27,7 +29,7 @@
 
 ---
 
-初回の授業までに、この4つを入れておいてください。お手本作品『LUMEN』で使っています。
+初回の授業までに、この4つを入れておいてください。お手本作品『LUMEN』や演習用 Prefab の参照先をそろえるために使います。
 
 | アセット | 用途 | 入手先 | 入れ方 |
 | --- | --- | --- | --- |
@@ -36,7 +38,7 @@
 | **Mini Legion Rock Golem PBR HP Polyart** | ボス | [Asset Store](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/mini-legion-rock-golem-pbr-hp-polyart-94707) | §2（Asset Store） |
 | **RPG Animations Pack FREE** | プレイヤーの攻撃モーション | [Asset Store](https://assetstore.unity.com/packages/3d/animations/rpg-animations-pack-free-288783) | §2（Asset Store） |
 
-> **インポート先のフォルダは変えなくて構いません。** プロジェクト側はアセットを ID（GUID）で参照しているので、どこに入っても自動でつながります。
+> **インポート時に保存先を手動で変更する必要はありません。** プロジェクト内の自動処理が、インポートで新しく作られた対象フォルダを `Assets/_GitIgnore/` に移動します。詳しくは下の「インポート後の格納先」を確認してください。
 
 > インポート時にファイル一覧が出たら、**すべてチェックを入れたまま Import** してください。チェックを外すと、使っているファイルが抜けて Missing になることがあります。
 
@@ -52,7 +54,10 @@ flowchart LR
     B --> C["③ Unity で<br>Package Manager を開く"]
     C --> D["④ 左側の<br>My Assets を選ぶ"]
     D --> E["⑤ Download → Import"]
+    E --> F["⑥ 自動移動後の格納先と<br>Prefab のモデルを確認"]
 ```
+
+Asset Store で取得したアセットを授業用プロジェクトにインポートし、自動移動の完了後に Prefab の表示を確認します。
 
 1. 上の表のリンクから Asset Store のページを開きます
 2. **「マイアセットに追加」**（Add to My Assets）をクリックします
@@ -65,6 +70,23 @@ flowchart LR
 5. 目的のアセットを選び、**Download** → **Import** を実行します
 
 ![Package Manager の My Assets](images/package-manager-my-assets.png){ width="640" }
+
+### インポート後の格納先 {#import-location}
+
+---
+
+プロジェクトに同梱された **`AssetStoreImportRelocator`**（`Assets/_DemoGame/Scripts/Editor/AssetStoreImportRelocator.cs`）が、パッケージのインポート完了時に動きます。**インポートで `Assets/` 直下に新しく作られた対象フォルダは、自動的に `Assets/_GitIgnore/` 以下へ移動します。** 学生がこのスクリプトを編集する必要はありません。
+
+Unity のアセット移動処理で GUID を維持するため、配布された Prefab からの参照を保ったまま格納先を整理できます。`Assets/_GitIgnore/` は Git の管理対象外で、各自が入手したアセット本体を誤ってリポジトリに含めないための場所です。**Git の管理対象外でも、Unity ではモデルやアニメーションの読み込みに使われます。削除しないでください。**
+
+1. Import と自動移動が終わるまで待ちます
+2. Project ウィンドウで `Assets/_GitIgnore/` を開き、取り込んだアセットのフォルダを確認します
+3. 演習用の `Assets/Application/_CommonSectionAssets/Prefabs/DemoPlayer.prefab` などを開き、モデルが表示されることを確認します。確認だけで元の Prefab を保存・変更する必要はありません
+4. Missing や Console の赤いエラーが残っていないか確認します
+
+!!! note "すべてのファイルを移動する処理ではありません"
+    自動移動の対象は、今回のインポートで新しくできた `Assets/` 直下のフォルダです。既存フォルダへの追加や `Assets/` 直下のファイルは対象外で、`Plugins`、`Editor`、`Editor Default Resources`、`Gizmos`、`StreamingAssets`、`Standard Assets` も除外されます。再インポート時などに移動先が重複すると、Console に `Could not move ...` の警告が出ることがあります。手動で削除・移動せず、講師に確認してください。
+
 
 ---
 

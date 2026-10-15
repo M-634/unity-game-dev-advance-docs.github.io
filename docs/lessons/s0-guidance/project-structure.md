@@ -2,8 +2,51 @@
 
 [シラバス](../index.md)
 
-!!! note "準備中"
-    このページは作成中です。
+## 概要
+
+---
+
+演習のたびにキャラクター操作やカメラを一から作ると、学びたい機能に取りかかるまでに時間がかかります。このプロジェクトでは、**演習の共通素材**と**単元ごとの作業場所**を分け、共通の土台を使って各単元を進めます。
+
+取得・起動の手順は [授業用プロジェクトのセットアップ](setup.md) を確認してください。
+
+## フォルダの役割
+
+---
+
+| 場所 | 役割 | 授業での扱い |
+| --- | --- | --- |
+| `Assets/_GitIgnore/` | 各自がインポートした外部アセット本体 | 自動移動されたモデルなどを Prefab が参照します。Git の管理対象外ですが、演習に必要なので削除しません |
+| `Assets/_DemoGame/` | 完成作品のショーケース | 開いて動きや構成を参考にします。編集せず、演習用の素材は `Application` 側を使います |
+| `Assets/Application/_CommonSectionAssets/` | 複数の単元で使う共通素材 | 配布された Prefab・スクリプト・アニメーション・シーンテンプレートを演習で利用します |
+| `Assets/Application/SectionN-…/` | 各単元のシーンと専用素材 | 講義ページで指定された作業用シーンと、自分で作るファイルを置きます。`SectionN-…` は単元ごとのフォルダ名を表す記法です |
+
+共通 Prefab が参照するモデルデータは、各自で Asset Store からインポートします。`AssetStoreImportRelocator` による `Assets/_GitIgnore/` への自動移動と確認手順は、[使用アセット一覧](../assets.md#import-location)を参照してください。
+
+共通素材は単元ごとに丸ごとコピーせず、各演習から利用します。単元固有の素材は、その単元のフォルダにまとめます。
+
+## 共通素材から演習を始める
+
+---
+
+`Assets/Application/_CommonSectionAssets/` には、次のものが入っています。
+
+| フォルダ | 内容の例 |
+| --- | --- |
+| `Prefabs/` | `DemoPlayer.prefab`、`Main Camera.prefab`、武器やギミックの Prefab |
+| `Scripts/` | キャラクター操作、入力、カメラ、敵、ギミックなどの共通スクリプト。名前空間は `Section.Common` など |
+| `Animations/` | `AC_Player.controller` など、キャラクターのアニメーション制御に使う素材 |
+| `Scenetemplate/` | 演習の開始時に使うシーンテンプレート |
+
+`Assets/Application/_CommonSectionAssets/Scenetemplate/CharacterSceneTemplate.scenetemplate` は、**「キャラクターテンプレートシーン」**という名前のテンプレートです。元になるシーンは `Assets/Application/_CommonSectionAssets/Scenetemplate/Template-Character.unity` です。テンプレートには、授業用の `DemoPlayer.prefab` と Cinemachine のカメラを配置済みのシーンであることが説明されています。
+
+新しい演習シーンを作るときは、講義の指示に従ってこの土台を使い、作成したシーンを単元のフォルダに保存します。作業用シーンが配布されている単元では、指定された `〇〇_Work.unity` を開いて進めます。
+
+!!! warning "共通素材の元ファイルを変更しない"
+    共通の Prefab やスクリプトを変更すると、それを使う別の演習にも影響します。通常の演習では、共通素材の元ファイルやテンプレートを上書きしません。シーン上で調整した値も、指示がない限り共通 Prefab へ Apply しないでください。
+
+    素材自体の改造が必要な場合は、講師の指示に従って単元のフォルダに専用のコピーや Prefab Variant を作ります。スクリプトをコピーする場合は、名前空間やクラス名の重複にも注意してください。
+
 
 ## お手本作品『LUMEN』
 
