@@ -21,31 +21,34 @@ nav:
    - 講義資料:
       - 目次:
           - 1章 3Dキャラクターの動作とカメラ制御:
-            - IKとFK、AnimationRigging: s1-character-camera/ik-fk.md
-            - Cinemachineとカメラ制御: s1-character-camera/cinemachine.md
+            - IKとFK、AnimationRigging（準備中）: s1-character-camera/ik-fk.md
+            - Cinemachineとカメラ制御（準備中）: s1-character-camera/cinemachine.md
             - Timeline(タイムライン)とカットシーン制作: s1-character-camera/timeline.md
-            - 補足資料①：3Dアニメーションの全体像: s1-character-camera/animation-overview.md
-            - 補足資料②：Rig と Avatar: s1-character-camera/rig-avatar.md
-            - 補足資料③：モーションの取り込みとコピー: s1-character-camera/motion-import.md
-            - 補足資料④：アニメーションブレンド: s1-character-camera/animation-blend.md
+            - 補足資料①：3Dアニメーションの全体像（準備中）: s1-character-camera/animation-overview.md
+            - 補足資料②：Rig と Avatar（準備中）: s1-character-camera/rig-avatar.md
+            - 補足資料③：モーションの取り込みとコピー（準備中）: s1-character-camera/motion-import.md
+            - 補足資料④：アニメーションブレンド（準備中）: s1-character-camera/animation-blend.md
           - 2章 キャラクターAIとState管理:
-            - キャラクターAI: s2-ai-state/character-ai.md
-            - C#① Interface とポリモーフィズム: s2-ai-state/interface-polymorphism.md
-            - C#② 状態管理(Stateパターン): s2-ai-state/state-pattern.md
+            - キャラクターAI（準備中）: s2-ai-state/character-ai.md
+            - C#① Interface とポリモーフィズム（準備中）: s2-ai-state/interface-polymorphism.md
+            - C#② 状態管理(Stateパターン)（準備中）: s2-ai-state/state-pattern.md
+            - 補足資料：経路探索とA*（準備中）: s2-ai-state/pathfinding.md
           - 3章 グラフィックスとゲームの絵作り:
-            - グラフィックス基礎① Lighting: s3-graphics/lighting.md
-            - グラフィックス基礎① Skybox: s3-graphics/skybox.md
-            - グラフィックス基礎② Shader(シェーダー): s3-graphics/shader.md
-            - グラフィックス基礎③ PostProcess(ポストプロセス): s3-graphics/postprocess.md
-            - グラフィックス基礎④ Rendering Pipeline: s3-graphics/srp.md
+            - グラフィックス基礎① Lighting（準備中）: s3-graphics/lighting.md
+            - グラフィックス基礎① Skybox（準備中）: s3-graphics/skybox.md
+            - グラフィックス基礎② Shader(シェーダー)（準備中）: s3-graphics/shader.md
+            - グラフィックス基礎③ PostProcess(ポストプロセス)（準備中）: s3-graphics/postprocess.md
+            - グラフィックス基礎④ Rendering Pipeline（準備中）: s3-graphics/srp.md
+            - 補足資料：座標・法線・UV・色（準備中）: s3-graphics/coordinates-color.md
           - 4章 C#の応用:
-            - C#③ ObserverパターンとR3: s4-csharp/r3.md
-            - C#④ 設計への誘い MVPパターン: s4-csharp/mvp.md
+            - C#③ ObserverパターンとR3（準備中）: s4-csharp/r3.md
+            - C#④ 設計への誘い MVPパターン（準備中）: s4-csharp/mvp.md
           - 5章 総合演習:
-            - 総合演習: s5-final/final-project.md
+            - 総合演習（準備中）: s5-final/final-project.md
       - 付録:
         - New Input Systemの使い方: appendix/input-system.md
         - C#発展 CancellationTokenSourceとスキップ処理: appendix/unitask.md
+        - delegate・event・購読の寿命（準備中）: appendix/events-lifetime.md
    - 課題:
       - 課題リスト:
         - 1章課題リスト: problems/s1/index.md
