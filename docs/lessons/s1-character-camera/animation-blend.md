@@ -2,18 +2,20 @@
 
 主教材：[IKとFK、AnimationRigging](ik-fk.md) ｜ 章の課題：[1章の課題](../problems/s1/index.md)
 
-> **補足資料**：必要な内容を参照してください。授業の主教材は「[IKとFK、AnimationRigging](ik-fk.md)」です。
-
 ## 概要
 
 ---
+
+> **補足資料**：必要な内容を参照してください。授業の主教材は「[IKとFK、AnimationRigging](ik-fk.md)」です。
+
+
+!!! note "準備中"
+    講義資料を改訂中です。図解は概念を示し、画面写真の差し替え箇所は「画像準備中」としています。配布シーンとの最終照合はこれから行います。
 
 3D のキャラクターは、モーションを切り替えた瞬間に**姿勢がパッと飛ぶ**と、とても目立ちます。
 2D のようにコマ絵を差し替えるのとは違い、腕も足も一瞬で別の位置にワープするからです。
 
 これを防ぐのが**アニメーションブレンド**です。**2つのモーションの姿勢を、割合を決めて混ぜ合わせます。**
-
-> **このページの問い**：「自然に切り替わる」とは、何がどうなっていることか？
 
 ---
 
@@ -53,20 +55,40 @@ flowchart TB
 
 ---
 
+## 混ぜる値と、混ぜるタイミング
+
+---
+
+値AとBの線形補間は `結果 = (1 - w) × A + w × B` と表せます。`w = 0` ならA、`w = 1` ならBです。姿勢ではボーンごとの位置や回転を扱うため、この式をEuler角へそのまま当てはめるのではなく、回転に適した補間を使います。
+
+```mermaid
+flowchart LR
+    A["歩きの姿勢<br>左足が前"] -->|"重み 1-w"| M["混合後の姿勢"]
+    B["走りの姿勢<br>左足が前"] -->|"重み w"| M
+    P["同じ歩行位相で評価"] -.-> A
+    P -.-> B
+```
+
+重みだけでなく、どの瞬間の姿勢を混ぜるかも重要です。左足が前の姿勢と右足が前の姿勢を混ぜると、意図せず両足が中央へ寄ります。歩行の位相や接地タイミングを揃えて比較します。
+
+遷移は「時間とともに重みを変える」、Blend Treeは「入力パラメータから重みを決める」、Maskは「混合する部位を選ぶ」と分けると、設定の目的を説明しやすくなります。[遷移の設定](https://docs.unity3d.com/6000.3/Documentation/Manual/class-Transition.html)ではExit TimeとDurationの役割も確認してください。
+
 ## Transition のブレンド
 
 ---
 
 Animator ウィンドウで State の間の矢印（Transition）を選ぶと、Inspector に設定が出ます。
 
-![Transition の Inspector](images/transition-inspector.png)
+!!! note "画像準備中：Transition の Inspector"
+    撮影対象：Transition の Inspector。直前の手順で選択した対象と、直後の説明にある設定値が読める構図で撮影します。予定画像：`images/transition-inspector.png`。
+    この枠を画像リンクへ置き換えます。
 
 | 設定項目 | 内容 |
 | --- | --- |
 | **Has Exit Time** | オンだと、元の State が**決まった位置まで再生されてから**遷移する。オフだと、**条件を満たした瞬間**に遷移する |
 | **Exit Time** | 元の State の、どの位置で遷移を始めるか（0〜1。0.9 なら 90% 再生したところ） |
 | **Fixed Duration** | オンだと Transition Duration を**秒**、オフだと**元の State の長さに対する割合**で数える |
-| **Transition Duration** | **何秒かけて混ぜるか**。これがブレンドの長さ |
+| **Transition Duration** | 混ぜる期間。Fixed Durationがオンなら秒、オフなら正規化した時間 |
 | **Transition Offset** | 遷移先を、どの位置から再生し始めるか |
 | **Interruption Source** | 遷移の途中に、別の遷移で割り込めるか |
 | **Conditions** | 遷移する条件（パラメータ） |
@@ -134,7 +156,9 @@ flowchart LR
 5. **Motion** の **＋ → Add Motion Field** を3回押し、待機・歩き・走りの Clip を入れる
 6. **Automate Thresholds** のチェックを外し、各 **Threshold** に 0 / 2 / 5 を入れる
 
-![Blend Tree の Inspector](images/blend-tree-inspector.png)
+!!! note "画像準備中：Blend Tree の Inspector"
+    撮影対象：Blend Tree の Inspector。直前の手順で選択した対象と、直後の説明にある設定値が読める構図で撮影します。予定画像：`images/blend-tree-inspector.png`。
+    この枠を画像リンクへ置き換えます。
 
 | 設定項目 | 内容 |
 | --- | --- |
@@ -202,7 +226,7 @@ Blend Tree を使っていても、**送る値がなめらかでなければ、�
 `Animator.SetFloat` には、**値を少しずつ目標に近づける**書き方があります。
 
 ```csharp
-// 3番目が「何秒かけて近づけるか」、4番目がこのフレームの経過時間
+// 3番目は平滑化の時間パラメータ（到達時刻の保証ではない）、4番目はフレーム経過時間
 animator.SetFloat(SpeedHash, speed, 0.15f, Time.deltaTime);
 ```
 
@@ -240,7 +264,9 @@ flowchart TB
 
 > `AC_Player` は今 **Base Layer だけ**です。この手順で Layer を足すのは、課題 3 の内容でもあります。
 
-![Avatar Mask の設定画面](images/avatar-mask-upperbody.png)
+!!! note "画像準備中：Avatar Mask の設定画面"
+    撮影対象：Avatar Mask の設定画面。直前の手順で選択した対象と、直後の説明にある設定値が読める構図で撮影します。予定画像：`images/avatar-mask-upperbody.png`。
+    この枠を画像リンクへ置き換えます。
 
 | Layer の設定項目 | 内容 |
 | --- | --- |
@@ -251,7 +277,7 @@ flowchart TB
 | **IK Pass** | この Layer で `OnAnimatorIK` を呼ぶか（[IKとFK、AnimationRigging](ik-fk.md)） |
 
 > 上半身の Layer は、**攻撃していないときは「何もしない State」にいる**ようにします。
-> 空の State（Motion が None）にいる間、その Layer は下の Layer の姿勢をそのまま通します。
+> 空のStateの結果はWrite Defaultsなどの設定にも影響されます。確実に無効化したい場合はLayerのWeightを0へ戻し、期待した姿勢になるか確認してください。
 
 ---
 
