@@ -6,212 +6,312 @@
 
 ---
 
-ボスが現れ、プレイヤーが振り向き、カメラが切り替わる。こうした演出では、複数の対象の動きを同じ時間軸で調整する必要があります。処理ごとに待ち時間をスクリプトへ書き込むと、演出の順番や間を変更するたびに、関連する処理を追い直すことになります。
+プレイヤーが歩いて止まり、カメラがボスへ寄り、画面に黒帯が出る。こうした演出では、複数の動作を同じ時間軸で合わせます。待ち時間をスクリプトへ個別に書くと、「登場を少し遅くする」だけでも関連する処理を探して直す必要があります。
 
-**Timeline は、アニメーション・カメラ・音・表示などを時間軸に並べて演出を組むための仕組みです。** まず小さなシーンで再生の仕組みを理解し、次にプレイヤーとボスを使った登場演出へ進みます。
+**Timelineは、いつ・誰に・何をするかを時間軸へ並べ、見ながら調整する仕組みです。** 動画編集のように区間を配置しますが、完成映像を流すのではなく、その場のキャラクター・カメラ・UIを動かします。
 
-!!! note "作成中：講義の骨組み"
-    サンプルシーンは制作中です。このページは扱う内容と順序をまとめた構成案です。操作手順・画面写真・完成コード・演出の秒数は、シーンの確定後に追加します。参照中のプロジェクトは Timeline 1.8.13、Cinemachine 2.10.7 を使用しています。
+!!! note "準備中"
+    授業用の改訂稿です。シーン・アセット・コードの保存内容に合わせて説明しています。ボス演出の秒数は調整中のため目安とし、画面写真と実行時の最終確認はこれから反映します。対象はTimeline 1.8／Cinemachine 2.10です。
 
 ## 演習の準備
 
 ---
 
-導入用に、短い演出の完成見本 `_Sample` と作業用 `_Work` を **1セット** 用意します。ボス演出は、その後に取り組む別の題材として扱います。
-
-| 用途 | シーン・準備状況 |
+| 用途 | シーン |
 | --- | --- |
-| **使用シーン** | 導入用 `_Work`：制作中・正式名未確定。配置先は `Assets/Application/Section1-CharacterCamera/Timeline/` |
-| **完成見本** | 導入用 `_Sample`：制作中・正式名未確定。配置先は `Assets/Application/Section1-CharacterCamera/Timeline/` |
-| **使用シーン（ボス演出）** | `Assets/Application/Section1-CharacterCamera/Timeline/BossDirectionTimline_Work.unity`（ファイルの存在のみ確認。内容は制作中） |
-| **完成見本（ボス演出）** | `Assets/Application/Section1-CharacterCamera/Timeline/BossDirectionTimline_Sample.unity`（ファイルの存在のみ確認。内容は制作中） |
+| **使用シーン：導入** | `Assets/Application/Section1-CharacterCamera/Timeline/Sample/SampleTimeLine_Work.unity` |
+| **完成見本：導入** | `Assets/Application/Section1-CharacterCamera/Timeline/Sample/SampleTimeLine_Sample.unity` |
+| **使用シーン：ボス演出** | `Assets/Application/Section1-CharacterCamera/Timeline/BossDirection/BossDirectionTimline_Work.unity` |
+| **完成見本：ボス演出** | `Assets/Application/Section1-CharacterCamera/Timeline/BossDirection/BossDirectionTimline_Sample.unity` |
 
-現在ある `Assets/Application/Section1-CharacterCamera/Timeline/SampleTimeLine.unity` は導入の参考です。上記の導入用1セットとの対応は、制作後に確定します。ボス用のファイル名の `Timline` 表記は現状の名前に合わせています。
+`TimeLine`・`Timline`は現在のファイル名の表記です。導入とボス演出ではフォルダも異なります。
 
-DemoGame のプレイヤーとボスは、講師が演習用に `Assets/Application/` 以下へ用意したものを使います。`Assets/_DemoGame/` は完成形の参照先です。
+共通のキャラクター素材は `Assets/Application/_CommonSectionAssets/` にあります。元のPrefabや共通スクリプトを上書きせず、講師が用意したシーン内の設定を調整します。`Assets/_DemoGame/` は完成形の参照先です。
+
+!!! warning "シーンを分けても、Timeline Assetは自動で分かれません"
+    現在の導入用SampleとWorkは、どちらも `Assets/Application/Section1-CharacterCamera/Timeline/Sample/SampleTimeLine.playable` を参照しています。Workで変更する前に、そのアセットを単元フォルダ内へ複製し、Work側のDirectorへ割り当てます。複製後はTrackのBindingも確認してください。シーンだけを保存し直しても、共有アセットの編集は見本へ影響します。
+
+ボス演出用Workは、確認時点ではカメラとライトがある初期シーンです。講師の説明ではSampleを使い、手を動かす際は講師が配布するWorkの状態を確認してから進めます。
 
 ## 授業の流れ
 
 ---
 
-| 順序 | 題材 | 理解すること |
+1. 文字の表示・色の変化を見て、Track・Clip・Bindingを覚える。
+2. Asset・Director・Graphを区別し、再生の仕組みを理解する。
+3. Workで表示時刻と長さを変え、1つの変更が何に影響するか確かめる。
+4. ボス演出を「動き・移動・カメラ・黒帯」に分けて読む。
+5. BlendとSignalで、動作のつながりと通知の時刻を調整する。
+
+スキップと独自Trackのコードは、基本操作の後に読む[補足：再生とスキップ](timeline-playback.md)・[補足：独自TrackとBinding](timeline-custom-track.md)へ分けています。
+
+## 1. 小さな演出で時間軸を読む
+
+---
+
+### Sampleを開く
+
+---
+
+1. 導入用 `SampleTimeLine_Sample.unity` を開く。
+2. Hierarchyの `PlayableDirector` を選ぶ。
+3. **Window → Sequencing → Timeline** を開く。
+4. Timelineウィンドウをロックし、別の対象を選んでも同じ演出を見られるようにする。
+5. 再生ヘッドを動かし、`HellowText (TMP)` と `WorldText (TMP)` の表示・色を確認する。
+
+ここでのPreviewは、指定時刻の演出結果を編集画面で確認する機能です。ゲームを実行してトリガーへ入ることとは異なります。操作を終えたらPreviewを解除して、シーン編集へ戻ります。
+
+### Track・Clip・Binding
+
+---
+
+| 用語 | 意味 | 導入シーンの例 |
 | --- | --- | --- |
-| 1 | 小さな演出の `_Sample` と `_Work` | Timeline の基本操作、PlayableAsset と PlayableGraph の関係 |
-| 2 | プレイヤーとボスの登場演出 | Track・Clip・Binding の組み合わせと再生の起動 |
-| 3 | ボス演出の調整 | Signal による通知と Blend によるつなぎ |
-| 応用1 | 演出のスキップ | キャンセル・再生停止・終了状態の整理 |
-| 応用2 | 演出機能の拡張 | Custom Track と独自の Binding 設計 |
+| **Track** | 同じ種類の処理を並べる行 | 表示切替を置くActivation Track |
+| **Clip** | 開始時刻と長さを持つ区間 | 文字を2秒間表示する区間 |
+| **Binding** | その行が作用するシーン内の相手 | `HellowText (TMP)` |
+| **再生ヘッド** | 現在評価している時刻 | 1秒、3秒など |
 
-## 1. Timeline の導入：小さな演出を作る
+まず「いつ」をClip、「誰に」をBinding、「どんな処理」をTrackの種類で読むと、長い演出も分解できます。
 
----
+保存されている導入アセットには、次の内容があります。
 
-### 完成見本を見て、時間軸を読む
-
----
-
-**この節で扱うこと**
-
-- 導入用 `_Sample` で、文字やオブジェクトの表示が順番に変わる短い演出を見る。題材の詳細はシーン完成後に確定する。
-- Timeline ウィンドウの Track、Clip、再生ヘッドを確認する。
-- Preview とゲーム実行時の再生を区別する。
-- 対応する `_Work` で同じ演出を組み、Clip の開始時刻と長さを変える。
-
-### Timeline Asset・PlayableAsset・PlayableGraph
-
----
-
-「時間軸に置いたデータが、どうやってシーンの動きになるのか」を説明します。
-
-| 要素 | 講義で押さえる役割 |
-| --- | --- |
-| **PlayableAsset** | 実行時の Playable を作るための定義を持つアセットの基底クラス |
-| **TimelineAsset** | PlayableAsset を継承し、Track や Clip を時間軸として保持するアセット |
-| **PlayableDirector** | アセットからのグラフ生成と再生を管理し、シーン内の対象との Binding を保持するコンポーネント |
-| **PlayableGraph** | 実行時の Playable と Output のつながり。処理や混合の結果を出力先へ渡す |
-| **Binding** | Track の出力先と、シーン内の Animator などを対応づける設定 |
+| Track | 対象 | 内容 |
+| --- | --- | --- |
+| Activation Track | `HellowText (TMP)` | 0.5〜2.5秒の表示区間 |
+| Activation Track (1) | `WorldText (TMP)` | 2.5〜4.5秒の表示区間 |
+| Animation Track | `WorldText (TMP)` のAnimator | 録画した文字色の変化。Infinite Clipとして保持 |
 
 ```mermaid
 flowchart LR
-    A["TimelineAsset<br>PlayableAsset を継承"] -->|"再生する定義"| D["PlayableDirector"]
-    D -->|"生成・再生を管理"| G["PlayableGraph<br>Playable → Mixer → Output"]
-    D -->|"Binding で対象を対応づける"| O["シーン内の対象"]
-    G -->|"評価した結果を出力"| O
+    A["0.5秒：Hellowを表示"] --> B["2.5秒：Worldへ切替"]
+    B --> C["Worldの色を変える"]
+    C --> D["4.5秒付近：演出の終端"]
 ```
 
-保存された Timeline Asset をもとに、Director が実行時のグラフを組み立てて再生します。アセットの定義、実行時のグラフ、シーン側の対象という3つの役割を分けて捉えます。図は混合を含む概念図で、すべての Track が同じ構造になるわけではありません。
+最初の2行は有効・無効を切り替え、3行目は値を時間とともに変えます。Clipの外や再生終了後の状態は、Activation TrackのPost-playback stateなどにも依存します。「終われば必ず非表示」とは限りません。
 
-**後で追加する説明・図**
+!!! note "画像準備中：導入シーンの全体"
+    Timelineの3行と、2種類の文字が見えるGameビューを並べます。Track名・Binding・再生ヘッド・表示区間へ番号を振ります。予定画像：`images/timeline-basics-overview.png`。
 
-- Clip の定義から Playable が作られる関係と、PlayableAsset と Playable の違い。
-- `CreatePlayable` の役割。導入では概念までとし、独自実装は応用で扱う。
-- Timeline を使わずに Playables API でグラフを構築することもできる、という位置づけ。
-
-### 演出を再生する
+## 2. Asset・Director・Graphを分ける
 
 ---
 
-- Timeline Asset の作成、Director への割り当て、Track の Binding を順に確認する。
-- `Play On Awake` による自動再生と、`PlayableDirector.Play()` による明示的な起動を比較する。
-- 「アセットそのものを起動する」という表現を、**Director にアセットを割り当て、Director を再生する**操作へ結びつける。
-- `Play()`・`Pause()`・`Stop()`、Wrap Mode の違いを導入用シーンで確認する。
-
-## 2. プレイヤーとボスを使った登場演出
+### 保存するものと、シーンに置くもの
 
 ---
 
-### 演出を Track と Clip に分ける
+**Timeline Assetは演出の定義、Playable Directorはそれをシーン内で再生するコンポーネント**です。台本を別の舞台へ持っていけるように、同じAssetを別の対象へ結びつけて使えます。
+
+| 要素 | 持っているもの・役割 |
+| --- | --- |
+| TimelineAsset | TrackとClip、時刻などの保存データ。PlayableAssetを継承する |
+| PlayableAsset | 実行時のPlayableを生成するための基底クラス |
+| PlayableDirector | 再生・停止・時刻と、シーン側のBindingを管理する |
+| PlayableGraph | 実行時に作られる処理のつながり |
+| Playable | グラフを構成する処理の単位 |
+
+```mermaid
+flowchart TD
+    A["TimelineAsset：保存した定義"] --> D["PlayableDirector"]
+    D -->|"生成・再生を管理"| G["PlayableGraph"]
+    G --> P["Playableを評価"]
+    P --> M["必要に応じて混合"]
+    M --> O["Output"]
+    D -->|"Binding"| T["シーン内の対象"]
+    O -->|"評価結果"| T
+```
+
+時間軸のデータから、実行時の処理のつながりを作ります。Assetそのものが毎フレーム勝手に動くのではなく、Directorが管理するグラフが評価されます。この図は概念図で、すべてのTrackが同じ混合処理を持つわけではありません。
+
+Unity以外でも、アニメーションや音声を複数の入力から合成する際に、処理をノードと接続で表す考え方が使われます。Timelineはその構築を時間軸の編集操作で行える道具です。Playables APIでは、Timelineを使わずコードからグラフを構成することもできます。
+
+### 再生を始めるのはDirector
 
 ---
 
-DemoGame のプレイヤーとボスを題材に、「誰が動くか」「どのカメラで見せるか」「何を同時に起こすか」を分解します。カット割りと具体的な動作はサンプル完成後に決めます。
+導入の `SampleTimeLine.cs` は、Startで停止通知を登録してから `_director.Play()` を呼びます。次は実装の中心部分の抜粋です。
 
-| Track | 題材の候補 | Binding で確認する対象 |
+```csharp
+_director.stopped += OnStopped;
+_director.Play();
+```
+
+`stopped` は停止の通知であり、必ず最後まで再生されたという保証ではありません。コードからStopを呼んでも停止になります。購読の解除と途中中断は[補足：再生とスキップ](timeline-playback.md)で扱います。
+
+| Directorの操作・設定 | 確認すること |
+| --- | --- |
+| Play On Awake | シーン開始時に自動で再生するか。スクリプトから起動する例との違い |
+| Play / Pause / Stop | 再生、時刻を進めず一時停止、再生を停止する操作 |
+| Wrap Mode：None | 終端で停止する |
+| Wrap Mode：Hold | 終端の状態を保持する |
+| Wrap Mode：Loop | 繰り返す |
+| Update Method | どの時計で時刻を進めるか |
+
+DirectorのWrap Modeと、Track固有の終了状態は分けて見ます。また、Update Methodによってはゲーム側のTime Scaleとの関係が変わります。
+
+## 3. Workで時刻と値を調整する
+
+---
+
+### まず変更するアセットを分ける
+
+---
+
+導入用Workを開き、Projectウィンドウで `SampleTimeLine.playable` を複製します。たとえば `SampleTimeLine_Work.playable` と名付け、同じSampleフォルダ内へ保存します。これは作業時に作る名前で、配布済みファイルではありません。
+
+Work側DirectorのPlayable欄へ複製を割り当て、3行のBindingを見本の表と対応させます。Animation Trackは対象のAnimatorへ結びつけます。文字のGameObjectを指定した際にAnimatorが追加される操作と、ActivationのGameObject指定を区別してください。
+
+### 表示区間を変える
+
+---
+
+1. `HellowText` のActive Clipを選び、開始位置だけをずらす。
+2. 再生ヘッドを手前から動かし、表示される時刻が変わったことを見る。
+3. 次にClipの端を動かし、表示時間だけを長くする。
+4. `WorldText` の区間と重ね、同時に表示される時間ができることを見る。
+
+**Clipを横へ動かすことと、端を伸ばすことでは意味が違います。** 重なりも、Activationでは「同時に有効」という意味であり、自動で透明度を混ぜるわけではありません。
+
+### 色を変える
+
+---
+
+Animation TrackでWorldTextの色を録画したキーを確認します。録画を使う場合は、再生ヘッドを置き、色を設定し、別の時刻でも色を設定します。終わったら録画を切り、Previewで確認します。
+
+文字が表示される区間と、色を変える時刻がずれていると、計算されていても変化が見えません。複数Trackを合わせる最初の練習です。Infinite Clipは録画をTrack全体へ保持する形で、通常のClipと見え方が異なります。
+
+## 4. ボス演出を読む
+
+---
+
+### 動作を役割ごとに分ける
+
+---
+
+ボス演出用SampleのDirectorには `BossDirectionSample.playable` が割り当てられています。シーンには `CM_1`・`CM_2`、`PlayerStartPoint`・`PlayerEndPoint`、`Canvas` 内の `Top`・`Bottom` などが用意されています。
+
+| Track | 役割 | 観察する点 |
 | --- | --- | --- |
-| Animation Track | プレイヤーとボスの動作 | 各キャラクターの Animator |
-| Cinemachine Track | 全景、プレイヤー側、ボス側のカット | Cinemachine Brain と各 Shot のカメラ参照 |
-| Activation Track | ボス名や演出用オブジェクトの表示 | 対象の GameObject |
-| Audio Track | 登場音・演出音 | Audio Source など出力の設定 |
+| Cinemachine Track | `CM_TPS → CM_1 → CM_2 → CM_TPS` のショット | 各Shotのカメラ参照と、TrackのBrain Binding |
+| Animation Track | `WALK00_F` から `WAIT00` へ | 歩く姿勢から止まった姿勢へのつなぎ |
+| Transform Move Track | プレイヤーの位置を始点から終点へ移す | 移動対象と2つの目印は別の参照 |
+| Animation Track (1) | Canvas配下の演出用アニメーション | 黒帯の出入りと録画キー |
+| Dissolve Track | ボスの見え方を変える独自Track | 登場の時刻とカメラの関係 |
 
-**この節で扱うこと**
+**歩く姿勢と、世界の中を移動することは別です。** この見本ではAnimation TrackとTransform Move Trackを組み合わせています。足踏みだけになる場合と、位置は動くのに滑って見える場合を分けて考えます。
 
-- `_Sample` の演出を Track ごとに読み、各 Clip の役割を説明する。
-- `_Work` で動作とカットを組み合わせる。
-- 演出中の Animator・カメラと、通常のゲーム制御が競合しないように役割を整理する。
-- [Cinemachine の講義](cinemachine.md)で扱った通常時のカメラ制御と、演出時の制御をつなげる。
+保存内容では、歩行と移動の開始が約0.87秒、移動の終端が約4.35秒です。これは調整中の値なので、数値を暗記するより「歩行区間に位置の移動が対応しているか」を見ます。
 
-### ゲーム側から Timeline を起動する
+!!! note "画像準備中：ボス演出のTrack"
+    全Trackとカメラの切替が読めるTimeline全景を撮影し、キャラクターの動き・位置・黒帯・カメラを色分けで対応づけます。予定画像：`images/timeline-boss-tracks.png`。
 
----
-
-- 開始要求 → 操作の制限 → Binding の設定 → Director の再生 → 終了処理、という流れを読む。
-- 起動方法はトリガーやボタンなどからサンプルに合わせて確定する。
-- Inspector で設定する Binding と、`SetGenericBinding` で再生対象を設定する方法を比較する。
-- 再生完了と任意の停止を区別し、停止通知だけで「必ず戦闘開始」と判断しない設計を考える。
-
-## 3. Signal と Blend で演出をつなぐ
+### 調整する順番
 
 ---
 
-### Signal：指定した時刻にゲーム側へ通知する
+1. プレイヤーがどこからどこまで進むかを決める。
+2. 移動区間へ歩行を合わせ、終点では待機へつなぐ。
+3. 各カメラの構図を確認してから、Shotの順番と長さを決める。
+4. カメラがボスを見せる時刻と、ボスの登場を合わせる。
+5. 黒帯を出す・戻すタイミングを整える。
+
+同時に全部を変えると、良くなった理由も崩れた原因も分かりにくくなります。まず再生ヘッドで狙った瞬間を確認し、その後、通して再生して間を確認します。
+
+## 5. Blendでつながりを作る
 
 ---
 
-- Signal Emitter、Signal Asset、Signal Receiver の役割と対応関係。
-- 演出中のある瞬間に効果音やゲーム側の処理を呼ぶ例。
-- Track の Binding と Signal の通知先の設定を確認する。
-- 再生し直した場合、途中から再生した場合、スキップした場合の発火条件を確認する。
-- 戦闘開始など必須の状態変更を、通過しない可能性がある Signal だけに任せない。
+Clip同士を対応するTrack上で重ねると、片方の寄与を減らし、もう片方を増やす区間を作れます。重なりの長さは「どのくらいかけて移るか」、曲線は「どんな変わり方で移るか」に関係します。
 
-### Blend：動きやカメラの切り替わりを調整する
+```mermaid
+flowchart LR
+    A["前のClipだけ"] --> B["重なり：前を減らし次を増やす"]
+    B --> C["次のClipだけ"]
+```
 
----
+2つのClipを同時に評価して混ぜる区間です。開始位置を同じにするだけで、自然なつながりが保証されるわけではありません。
 
-- 対応する Clip を重ね、重なりの長さと曲線でつながり方が変わる様子を見る。
-- Animation Clip の混合と、Cinemachine Shot 間のカメラブレンドをそれぞれ比較する。
-- すべての Track・Clip が同じ Blend に対応するわけではないことを整理する。
-- `_Work` で、急なカットと滑らかな切り替えを使い分ける。
-
-## 応用1. 演出中のスキップ
+### カメラのBlend
 
 ---
 
-関連資料：[C#発展 CancellationTokenSource とスキップ処理](../appendix/unitask.md)
+Sampleでは `CM_1` と `CM_2` が約5.10〜6.55秒で重なっています。重なりを短く・長くした結果を比べ、見せたい対象が途中で画面から消えないか確認します。
 
-**この節で扱うこと**
+TrackのBindingは**出力先のCinemachine Brain**、Shot内の参照は**使うVirtual Camera**です。片方だけ設定しても十分ではありません。Timelineが有効なShotを扱っている間は、通常のPriorityによる選択よりTimelineのカメラ制御が優先されます。[CinemachineとTimelineの公式解説](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.10/manual/CinemachineTimeline.html)も参照してください。
 
-- 再生終了待ちとスキップ入力待ちを組み合わせる考え方。
-- `CancellationTokenSource` はキャンセル要求を伝える仕組みであり、トークンをキャンセルするだけで Director が自動停止するわけではないこと。
-- 通常終了、ユーザーのスキップ、シーン破棄による中断を区別する。
-- 通常終了とスキップは、ボスの表示・操作権・カメラ・HUD などを同じ戦闘開始状態へ揃える。シーン破棄時は戦闘を開始しない。
-- Director の停止、イベント購読の解除、待機処理のキャンセル、CTS の破棄をどこで行うか。
-- 途中の Signal が発火することを前提にせず、必要な終了状態を明示的に適用する。
-
-付録のコードは考え方を示す例です。現在の DemoGame はスキップ要求のフラグとキャンセルトークンを使い、終了時の評価・停止とボスの状態適用を行っています。講義用の完成コードは、演習シーンの実装と付録の説明を照合してから掲載します。
-
-## 応用2. Custom Track・Custom Binding による拡張
+### アニメーションのBlend
 
 ---
 
-### 独自 Track を作る
+歩行と待機のClipにも重なりがあります。歩行の終わりを急に切る場合と、徐々に待機へ移す場合を比べます。長すぎるBlendは止まる動作を曖昧にし、移動の速度と足の動きが合わなくなることもあります。
+
+Activationや今回の独自Transform Move Trackは、同じ方法でBlendするとは限りません。**Track・Clipが混合をどう実装しているか**まで含めて機能が決まります。
+
+## 6. Signalで特定の瞬間を知らせる
 
 ---
 
-- 標準 Track だけでは扱いにくい演出を、Timeline の時間軸へ載せる目的。
-- `TrackAsset`、Clip 用の `PlayableAsset`、`PlayableBehaviour` の役割。
-- `CreatePlayable` による Playable の生成と、導入で学んだ PlayableGraph とのつながり。
-- 混合が必要な場合の Mixer と入力ウェイト。独自 Track が自動で Blend 対応になるわけではないこと。
-- DemoGame の `DissolveTrack`・`DissolveClip`・`DissolveBehaviour` を参照例にする。シェーダーの詳細は [Shader の講義](../s3-graphics/shader.md)につなぐ。
+表示や音の区間を並べるだけでなく、「この瞬間に処理を呼ぶ」ためにSignalを使えます。Clipが期間を持つのに対して、Signal Emitterは通知する時点を置くマーカーです。
 
-### 独自の対象へ Binding する
+```mermaid
+flowchart LR
+    E["Signal Emitter：通知する時刻"] --> A["Signal Asset：合図の種類"]
+    A --> R["Signal Receiver：受け取ったときの処理"]
+    R --> F["例：AudioSource.Play"]
+```
 
----
+Emitterの時刻を変えれば、処理のコードを書き換えずに音を鳴らすタイミングを調整できます。Signal Assetそのものへ処理を書くのではなく、Receiver側で合図と反応を対応づけます。
 
-ここでいう **Custom Binding** は、独自 Track の対象型や参照の渡し方を設計することを指します。`CustomBind` という名前の標準 API がある、という意味ではありません。
-
-- `TrackBindingType` で対象の型を指定し、Inspector で対応づける。
-- `SetGenericBinding` で再生時の対象を差し替える。
-- Track 全体の Binding と、Clip が個別に持つ参照（`ExposedReference` など）を区別する。
-- 同じ演出を別の対象に使う場合、Track 名や型だけで一括指定して誤った相手に結びつけないよう、対応関係を設計する。
-- DemoGame の実装を読んだ後、講義用に用意された対象で小さく拡張する。具体的な実装範囲はサンプル完成後に確定する。
-
-## シーン完成後に追加する内容
+### 小さな通知を追加する
 
 ---
 
-- 導入用 `_Sample`・`_Work` の正式パスと、初期状態・完成状態の比較。
-- ボス演出の Hierarchy、Track・Clip・Binding の対応表。
-- Timeline ウィンドウと Inspector の画像、手順ごとの確認ポイント。
-- 再生の起動、Signal、Blend、スキップ、独自 Track の検証済みコードと操作例。
-- 通常終了・途中スキップ・再実行・シーン破棄での動作確認。
+現状のボスTimelineにはSignalの設定は含まれていないため、以下はWorkへ追加する操作例です。
 
-## 参考資料
+1. 講師指定の音を持つAudioSourceを用意し、自動再生を無効にする。
+2. Signal Receiverを置き、Signal TrackのBindingを設定する。
+3. 通知したい時刻にSignal Emitterを追加し、単元用のSignal Assetを作成・指定する。
+4. ReceiverのReactionへ、そのAudioSourceの `Play()` を登録する。
+5. ゲームを実行して演出を再生し、通知が1回届くか確認する。
+
+単に一定区間で音を鳴らすだけならAudio Trackも候補です。ここではゲーム側のメソッドへ時間軸から通知する構造を見るためにSignalを使います。[Signalの公式手順](https://docs.unity3d.com/Packages/com.unity.timeline@1.8/manual/wf-signals.html)では足音を例に確認できます。
+
+!!! note "画像準備中：Signalの対応"
+    EmitterのSignal欄と、Receiverの同じSignalに対するReactionを並べます。予定画像：`images/timeline-signal-binding.png`。
+
+### 途中から再生するとき
 
 ---
 
+Emit Onceはループ時の通知回数、Retroactiveは通知時刻より後から再生した場合の扱いに関係します。スクラブ・再実行・スキップを同じものとして考えず、それぞれの動作を確かめます。
+
+戦闘開始など必ず必要な状態変更を、途中で飛ばされるSignalだけへ任せないようにします。通常終了・スキップ・中断の設計は補足へ進みます。
+
+## よくある詰まり
+
+---
+
+| 症状 | 確認するところ |
+| --- | --- |
+| Workを編集したらSampleも変わった | 同じ `.playable` を共有していないか |
+| Timelineが表示されない | Directorの選択とウィンドウのロック |
+| 文字が表示されるが色は変わらない | Animation Trackの対象、録画キーと表示区間 |
+| 足踏みする／滑る | 姿勢と位置を動かす区間の対応 |
+| カメラが切り替わらない | TrackのBrain BindingとShotのVirtual Camera参照 |
+| Triggerへ入っても始まらない | 入力制限の設定だけでなく、DirectorのPlayが呼ばれるか |
+| 終了後に表示が残る | Wrap ModeとTrack側の終了状態 |
+| Signalが来ない／繰り返す | AssetとReceiverの対応、再生開始位置、ループ設定 |
+
+## 応用と関連資料
+
+---
+
+- [補足：Timelineの再生・停止とスキップ](timeline-playback.md)
+- [補足：Custom TrackとBinding](timeline-custom-track.md)
+- [付録：CancellationTokenSourceとスキップ処理](../appendix/unitask.md)
+- [Cinemachineとカメラ制御](cinemachine.md)
 - [Unity Timeline 1.8 マニュアル](https://docs.unity3d.com/Packages/com.unity.timeline@1.8/manual/index.html)
-- [Unity Playables API の概要](https://docs.unity3d.com/6000.0/Documentation/Manual/Playables.html)
-- [PlayableAsset API](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Playables.PlayableAsset.html)
-- [Timeline の Signal](https://docs.unity3d.com/Packages/com.unity.timeline@1.8/manual/wf-signals.html)
 
 [シラバス](../index.md) ｜ 章の課題：[1章の課題](../problems/s1/index.md)

@@ -33,7 +33,7 @@
 | | [授業用プロジェクト構成の説明](s0-guidance/project-structure.md) | |
 | 1章 | [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md)（準備中） | [1章の課題](problems/s1/index.md) |
 | | [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md)（準備中） | |
-| | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md) | |
+| | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md)（準備中） | |
 | 2章 | [キャラクターAI](s2-ai-state/character-ai.md)（準備中） | 準備中 |
 | | [C#① Interface(インターフェース)とpolymorphism（ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
 | | [C#② 状態管理(Stateパターン)](s2-ai-state/state-pattern.md)（準備中） | |
@@ -60,6 +60,8 @@
 | [Rig と Avatar](s1-character-camera/rig-avatar.md) | 骨格・スキニング・リターゲット |
 | [モーションの取り込み](s1-character-camera/motion-import.md) | 元データとコピー、イベントのタイミング |
 | [アニメーションブレンド](s1-character-camera/animation-blend.md) | 重み・位相・部位ごとの混合 |
+| [Timelineの再生・停止とスキップ](s1-character-camera/timeline-playback.md) | 終了理由・入力制限・キャンセルと後始末 |
+| [Custom TrackとBinding](s1-character-camera/timeline-custom-track.md) | Transform Move Trackの実装と参照の解決 |
 | [経路探索とA*](s2-ai-state/pathfinding.md) | グラフと探索の考え方 |
 | [座標・法線・UV・色](s3-graphics/coordinates-color.md) | 描画の共通語 |
 | [delegate・event・購読の寿命](appendix/events-lifetime.md) | 通知と登録解除の基礎 |
