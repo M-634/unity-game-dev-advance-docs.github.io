@@ -21,15 +21,15 @@ nav:
    - 講義資料:
       - 目次:
           - 1章 3Dキャラクターの動作とカメラ制御:
-            - IKとFK、AnimationRigging（準備中）: s1-character-camera/ik-fk.md
-            - Cinemachineとカメラ制御（準備中）: s1-character-camera/cinemachine.md
-            - Timeline(タイムライン)とカットシーン制作（準備中）: s1-character-camera/timeline.md
-            - 補足：Timelineの再生・停止とスキップ（準備中）: s1-character-camera/timeline-playback.md
-            - 補足：Custom TrackとBinding（準備中）: s1-character-camera/timeline-custom-track.md
-            - 補足資料①：3Dアニメーションの全体像（準備中）: s1-character-camera/animation-overview.md
-            - 補足資料②：Rig と Avatar（準備中）: s1-character-camera/rig-avatar.md
-            - 補足資料③：モーションの取り込みとコピー（準備中）: s1-character-camera/motion-import.md
-            - 補足資料④：アニメーションブレンド（準備中）: s1-character-camera/animation-blend.md
+            - IKとFK、AnimationRigging: s1-character-camera/ik-fk.md
+            - Cinemachineとカメラ制御: s1-character-camera/cinemachine.md
+            - Timeline(タイムライン)とカットシーン制作: s1-character-camera/timeline.md
+            - 補足：Timelineの再生・停止とスキップ: s1-character-camera/timeline-playback.md
+            - 補足：Custom TrackとBinding: s1-character-camera/timeline-custom-track.md
+            - 補足資料①：3Dアニメーションの全体像: s1-character-camera/animation-overview.md
+            - 補足資料②：Rig と Avatar: s1-character-camera/rig-avatar.md
+            - 補足資料③：モーションの取り込みとコピー: s1-character-camera/motion-import.md
+            - 補足資料④：アニメーションブレンド: s1-character-camera/animation-blend.md
           - 2章 キャラクターAIとState管理:
             - キャラクターAI（準備中）: s2-ai-state/character-ai.md
             - C#① Interface とポリモーフィズム（準備中）: s2-ai-state/interface-polymorphism.md
@@ -65,11 +65,11 @@ nav:
             - １−７ 右クリックの間だけ、肩越しの構えカメラにする: problems/s1/s1-7.md
             - １−８ 追従カメラを自分で書いて、Cinemachine と比べる: problems/s1/s1-8.md
             - １−９ 敵を見ながら戦えるロックオンカメラを作る: problems/s1/s1-9.md
-            - １−１０ 文字の登場に間をつけて、タイトル演出を作る（準備中）: problems/s1/s1-10.md
-            - １−１１ ボス登場のカメラと動きを、Blendでつなぐ（準備中）: problems/s1/s1-11.md
-            - １−１２ Signalで、演出の決めどころに反応を起こす（準備中）: problems/s1/s1-12.md
-            - １−１３ 演出をスキップしても、操作できる状態へ戻す（準備中）: problems/s1/s1-13.md
-            - １−１４ 同じ演出を別の対象にも使えるCustom Trackを作る（準備中）: problems/s1/s1-14.md
+            - １−１０ 文字の登場に間をつけて、タイトル演出を作る: problems/s1/s1-10.md
+            - １−１１ ボス登場のカメラと動きを、Blendでつなぐ: problems/s1/s1-11.md
+            - １−１２ Signalで、演出の決めどころに反応を起こす: problems/s1/s1-12.md
+            - １−１３ 演出をスキップしても、操作できる状態へ戻す: problems/s1/s1-13.md
+            - １−１４ 同じ演出を別の対象にも使えるCustom Trackを作る: problems/s1/s1-14.md
 
 
 # theme

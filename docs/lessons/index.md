@@ -31,9 +31,9 @@
 | | [課題について](problems/index.md) | |
 | | [授業用プロジェクトのセットアップ](s0-guidance/setup.md) | |
 | | [授業用プロジェクト構成の説明](s0-guidance/project-structure.md) | |
-| 1章 | [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md)（準備中） | [1章の課題](problems/s1/index.md) |
-| | [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md)（準備中） | |
-| | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md)（準備中） | |
+| 1章 | [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md) | [1章の課題](problems/s1/index.md) |
+| | [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md) | |
+| | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md) | |
 | 2章 | [キャラクターAI](s2-ai-state/character-ai.md)（準備中） | 準備中 |
 | | [C#① Interface(インターフェース)とpolymorphism（ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
 | | [C#② 状態管理(Stateパターン)](s2-ai-state/state-pattern.md)（準備中） | |
@@ -47,12 +47,11 @@
 | 付録 | [New Input Systemの使い方](appendix/input-system.md) | |
 | | [C#発展 CancellationTokenSourceとスキップ処理](appendix/unitask.md) | |
 
-## 補足資料・付録の初稿
+## 補足資料・付録
 
 ---
 
-!!! note "準備中"
-    以下は基礎・背景を確認するための初稿です。本文から必要な箇所へ移動して読めます。
+基礎・背景を確認するための資料です。本文から必要な箇所へ移動して読めます。2章以降と付録の改訂稿は準備中です。
 
 | 資料 | 内容 |
 | --- | --- |
