@@ -23,15 +23,18 @@ Gemfile.lock
 /.venv/
 
 # local作業用・バックアップ
-/.local/
 /_bak/
 *.bak
 # 共有設定は管理し、個人用の設定や状態は除外する
 /.claude/*
 !/.claude/launch.json
+!/.claude/skills/
 /.codex/*
 !/.codex/config.toml
 CLAUDE.local.md
+
+# unity-project
+/.local/
 
 
 # OS generated
