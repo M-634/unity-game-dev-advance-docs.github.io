@@ -1,22 +1,30 @@
 # AGENTS.md
 
-このファイルは Codex と Claude Code の共通ガイドです。共通ルールはここだけを編集し、`CLAUDE.md` は `@AGENTS.md` で読み込みます。
+このファイルは Claude Code（制作補助担当）と Codex（レビュー担当）の共通ガイドです。共通ルールはここだけを編集し、`CLAUDE.md` は `@AGENTS.md` で読み込みます。
 
 ## 作業分担と共同作業
 
-- ユーザー：Unity の `Assets/Application/` 以下の演習シーン・スクリプト・アセットを制作。
-- Claude Code：Unity の `Assets/_DemoGame/` 以下の完成見本ゲームを制作。
-- Codex：このリポジトリの講義本文・課題・補足資料・図解・教材サイトを整備。
+- ユーザー：Unity の `Assets/Application/` 以下の演習シーン・スクリプト・アセットを制作。コミットと push はユーザーだけが行う。
+- Claude Code：ファイルを作成・編集する唯一の AI。このリポジトリの講義本文・課題・補足資料・図解・教材サイトと、Unity の `Assets/_DemoGame/` 以下の完成見本ゲームを制作補助する。
+- Codex：レビュー専任。ファイルの作成・編集・削除、コミット、push はしない。読んで確認し、指摘を報告するだけにする。
 - ユーザーから担当変更の指定がない限り、担当外の実装は参照にとどめ、必要な変更を担当者向けに整理する。
 - 作業前に `git status` と対象ファイルの現状を確認する。既存の未コミット変更を勝手に戻さない。同じファイルの並行編集を避ける。
+- 報告でファイルの変更や設定行に触れるときは、ユーザーがその場で開いて確認・編集できるよう、`[.gitignore:31](.gitignore:31)` のように行番号付きのリンクを付ける。
+
+## git と作業ファイルの扱い
+
+- AI は `git commit`・`git push`・`git reset` などの履歴やリモートを変える操作をしない。必要なら変更内容をユーザーに報告して止める。
+- 作業用のスクリプト・JSON・メモ・スクリーンショットなどの一時ファイルは、このリポジトリと `.local/` の中に作らない。各ツールの一時フォルダ（Claude Code ならスクラッチパッド）に置く。成果物以外のファイルを作業ツリーに残さない。
+- 作業の最初と最後に、両方のリポジトリ（このリポジトリと `.local/`）の `git status --short --untracked-files=all` を確認する。未追跡（`??`）や未コミットのファイルがあれば、件数と場所をユーザーに報告する。特に `Assets/` 以下の未追跡ファイルは push 漏れの恐れとしてはっきり伝える。
+- 講義ページを公開する前に、ページが参照する Unity のパスが Unity リポジトリの `origin/master` に存在するかを `git -C .local ls-tree -r --name-only origin/master` で確認する。ローカルの作業フォルダにあるだけでは確認したことにならない。存在しないパスがあれば、公開せずにユーザーに報告する。
 - 作成中のシーンについて、未確定のファイル名・秒数・Hierarchy・完成済みの挙動を事実として書かない。構成案と確認済みの事実を区別する。
-- `.claude` と `.codex` は各ツール固有の設定を置く。共通ルールは本ファイル、共通の実行処理は `src/docs.py` に集約し、重複コピーを作らない。
+- `.claude` と `.codex` は各ツール固有の設定を置く。共通ルールは本ファイルに集約し、重複コピーを作らない。
 
 ## このリポジトリについて
 
 日本語で行う Unity ゲーム開発授業（後期）の教材です。Markdown で書き、MkDocs Material で静的サイトにして GitHub Pages に公開しています。アプリケーションのコードはありません。成果物は `docs/lessons/` 以下の授業ページで、ページの本文はすべて日本語で書きます。
 
-授業で扱う Unity プロジェクトは別の git リポジトリで、ローカルの `.local/unity-game-dev-advance/` に置いてあります（`.local/` は gitignore 済み）。ページに書くシーンのパス、スクリプト名、アセット名は、このプロジェクトを読んで確認してください。この資料リポジトリから Unity のビルドやデプロイはしません。教材サイトのローカルビルドは行います。
+授業で扱う Unity プロジェクトは別の git リポジトリで、ローカルの `.local/unity-game-dev-advance/` に置いてあります（`.local/` は gitignore 済み）。Unity リポジトリの git ルートは `.local/` で、Unity プロジェクトはその下の `unity-game-dev-advance/` です。ページに書くシーンのパス、スクリプト名、アセット名は、このプロジェクトを読んで確認してください。この資料リポジトリから Unity のビルドやデプロイはしません。教材サイトのローカルビルドは行います。
 
 ## コマンド
 
@@ -27,10 +35,10 @@
 .venv/Scripts/python.exe -m pip install -r src/requirements.txt
 
 # http://127.0.0.1:8000 でライブプレビュー（.claude/launch.json にも "mkdocs" として定義済み）
-.venv/Scripts/python.exe src/docs.py serve
+.venv/Scripts/python.exe -m mkdocs serve --dev-addr 127.0.0.1:8000
 
 # output/docs にビルド（CI と同じ処理）。リンク切れや nav に載っていないページがないかログを確認する
-.venv/Scripts/python.exe src/docs.py build
+.venv/Scripts/python.exe -m mkdocs build
 ```
 
 テストやリンターはありません。自動チェックは `mkdocs build` の警告だけです。

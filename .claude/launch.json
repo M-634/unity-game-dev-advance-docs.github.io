@@ -4,7 +4,7 @@
     {
       "name": "mkdocs",
       "runtimeExecutable": ".venv\\Scripts\\python.exe",
-      "runtimeArgs": ["src/docs.py", "serve"],
+      "runtimeArgs": ["-m", "mkdocs", "serve", "--dev-addr", "127.0.0.1:8000"],
       "port": 8000
     }
   ]
