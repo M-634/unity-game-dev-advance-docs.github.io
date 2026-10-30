@@ -34,9 +34,9 @@
 | 1章 | [IKとFK、AnimationRigging](s1-character-camera/ik-fk.md) | [1章の課題](problems/s1/index.md) |
 | | [Cinemachineとカメラ制御](s1-character-camera/cinemachine.md) | |
 | | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md) | |
-| 2章 | [キャラクターAI](s2-ai-state/character-ai.md)（準備中） | 準備中 |
-| | [C#① Interface(インターフェース)とpolymorphism（ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
-| | [C#② 状態管理(Stateパターン)](s2-ai-state/state-pattern.md)（準備中） | |
+| 2章 | [キャラクターAI](s2-ai-state/character-ai.md) | [2章の課題](problems/s2/index.md) |
+| | [C#① 状態管理(Stateパターン)](s2-ai-state/state-pattern.md) | |
+| | [C#② Interface(インターフェース)とpolymorphism（ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
 | 3章 | [グラフィックス基礎① Lighting](s3-graphics/lighting.md)（準備中）・[Skybox](s3-graphics/skybox.md)（準備中） | 準備中 |
 | | [グラフィックス基礎② Shader](s3-graphics/shader.md)（準備中） | |
 | | [グラフィックス基礎③ PostProcess](s3-graphics/postprocess.md)（準備中） | |
