@@ -79,7 +79,37 @@ flowchart LR
 | ウェイポイント | 決まった道を巡回 | 配置していない経路は選べない |
 | NavMesh | 床の上を自由に歩く3Dキャラクター | 飛行や壁登りは別の表現・制御が必要 |
 
-NavMesh は見えている床そのものではなく、**この体格のキャラクターが移動できる範囲**を近似したデータです。床があっても通路が狭すぎれば通れません。経路の計算方法は[補足：経路探索とA*](pathfinding.md)を参照してください。
+NavMesh は見えている床そのものではなく、**この体格のキャラクターが移動できる範囲**を近似したデータです。床があっても通路が狭すぎれば通れません。
+
+## NavMesh はどう動いているか
+
+---
+
+NavMesh を使う処理は、エディタで**事前に行う Bake** と、**ゲーム中に行う経路探索と移動**に分かれます。
+
+```mermaid
+flowchart LR
+    subgraph B["事前：Bake"]
+        V["地形を細かい箱（ボクセル）に置き換える"] --> W["歩ける面を取り出す"]
+        W --> N["面を多角形に分けて NavMesh にする"]
+    end
+    subgraph R["ゲーム中"]
+        S["SetDestination"] --> A["多角形のつながりを A* で探す"]
+        A --> C["次の曲がり角へ向かう"]
+        C --> O["他の Agent を避けて進む"]
+    end
+    N --> A
+```
+
+Bake は、ステージの形を調べて「歩ける場所の地図」を作る作業です。結果はファイルに保存されるので、ゲーム中に地形を調べ直す必要はありません。その代わり、Bake の後で壁を動かしても NavMesh は変わりません。
+
+出来上がった NavMesh は、歩ける面を**凸多角形（ポリゴン）**に分けたデータです。隣り合うポリゴンの情報も持っています。
+
+![Show NavMesh を ON にした EnemyAI_Sample の Scene ビュー。床の上に NavMesh が水色で表示され、壁の周りには面がない](images/navmesh-baked.ping.png)
+
+ゲーム中は、`SetDestination` で目的地を受け取ると、開始地点のポリゴンから目的地のポリゴンまでのつながりを探します。結果はポリゴンの列で、Agent はその中で次に見える曲がり角へ向かいます。近くに他の Agent がいれば、速度を調整して避けます。
+
+ポリゴンをどうたどるのかは、[補足：経路探索とA*](pathfinding.md)で図を使って説明します。公式の説明は [Inner Workings of the Navigation System](https://docs.unity3d.com/Packages/com.unity.ai.navigation@2.0/manual/NavInnerWorkings.html) にあります。
 
 ## Unity の Navigation コンポーネント
 
@@ -109,6 +139,10 @@ Bake では「この半径の円柱が通れる場所」を計算します。標
 1. メニューの **Window > AI > Navigation** を開く。
 2. **Agents** タブで `Boss` を選び、値を確認する。
 
+![Window メニューの AI の中にある Navigation](images/navmesh-settigns-locate.png){ width="400" }
+
+![Navigation ウィンドウの Agents タブ。Boss を選び、Radius と Height が表示されている](images/navigation-agents-tab.png){ width="480" }
+
 | 項目 | `Humanoid` | `Boss` |
 | --- | --- | --- |
 | Radius | 0.5 | 1.1 |
@@ -122,13 +156,19 @@ Bake では「この半径の円柱が通れる場所」を計算します。標
 
 `Stage` を選び、`NavMesh Surface` を確認します。
 
+![Stage の NavMesh Surface の Inspector。Agent Type が Boss で、下に Bake ボタンがある](images/navmesh-componet.ping.png){ width="600" }
+
 | 項目 | 設定 | 意味 |
 | --- | --- | --- |
 | **Agent Type** | `Boss` | どの体格の面を作るか |
 | **Collect Objects** | `Current Object Hierarchy` | `Stage` とその子だけを対象にする |
 | **Use Geometry** | `Render Meshes` | 見た目のメッシュから床を計算する |
 
-**Bake** を押すと面が作られ、`EnemyAI_Sample/NavMesh-Stage.asset` に保存されます。Scene ビューの右上にある **AI Navigation** オーバーレイの **Show NavMesh** で、面を表示できます。
+**Advanced** の **Voxel Size** は、Bake で地形を置き換える箱の大きさです。自動の値は Agent の半径の3分の1で、`Boss` では約 0.37 m です。
+
+**Bake** を押すと面が作られ、`EnemyAI_Sample/NavMesh-Stage.asset` に保存されます。Scene ビューの **AI Navigation** オーバーレイの **Show NavMesh** で、面を表示できます。オーバーレイが見当たらないときは、Scene ビューで `` ` `` キーを押して出るメニューから有効にします。
+
+![Scene ビューの AI Navigation オーバーレイ。Show NavMesh にチェックが入っている](images/navmesh-overlay.png){ width="320" }
 
 Collect Objects を `All Game Objects` にすると、シーン上のすべてのメッシュが対象になります。足場にしたいものだけを対象に絞ると、Bake の結果を説明しやすくなります。
 
@@ -154,6 +194,8 @@ Collect Objects を `All Game Objects` にすると、シーン上のすべて�
 ---
 
 `EnemyBoss` の `NavMesh Agent` を確認します。
+
+![EnemyBoss の NavMesh Agent の Inspector](images/navmesh-agent-inspector.png){ width="600" }
 
 | 項目 | 値 | 意味 |
 | --- | --- | --- |
@@ -211,6 +253,8 @@ Sample の知覚は「プレイヤーとの距離」だけです。そのため�
 | `Parameters > Attack Interval Time` | 3.2 | 小さいほど攻撃の隙が減る |
 
 再生中は `開発用 > Draw Debug` が ON なら、ボスの足元に円が描かれます。黄が発見距離、橙が見失う距離、赤が攻撃距離です。
+
+![再生中の Scene ビュー。ボスの足元に黄・橙・赤の円と、現在の State 名が表示されている](images/enemy-state-debug.png){ width="640" }
 
 ### 目的地を渡す
 
@@ -275,6 +319,8 @@ public bool HasArrived =>
 | 移動中にガタつく | 位置を変更するコンポーネントが複数ないか |
 
 まず経路表示を見て「道がない」のか「道に沿って動けない」のかを分けます。見た目の結果から、原因となる層を絞る練習です。経路は、Agent を選んだ状態で AI Navigation オーバーレイの **Show Path Polygons** を ON にすると確認できます。
+
+![再生中の Scene ビュー。Show Path Polygons で、ボスが広い通路を回る経路のポリゴンが色付きで表示されている](images/navmesh-path-polygons.png){ width="640" }
 
 ## 関連資料
 

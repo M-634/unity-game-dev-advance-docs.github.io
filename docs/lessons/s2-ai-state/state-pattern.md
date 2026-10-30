@@ -43,11 +43,11 @@
 5. `BossController` が `AngryState`・`InvincibleState` を足す方法を読む。
 6. 遷移条件の設計を、Sample の挙動を見ながら確認する。
 
-## 有限状態機械（FSM）
+## 有限状態機械（FSM：Finite State Machine）
 
 ---
 
-状態は「今どのルールで動くか」、遷移は「どの条件でルールを切り替えるか」です。同時に1つの状態だけを選ぶ仕組みを**有限状態機械**（Finite State Machine、FSM）と呼びます。信号機、通信手順、メニュー画面など、ゲーム以外でも使われます。
+状態は「今どのルールで動くか」、遷移は「どの条件でルールを切り替えるか」です。同時に1つの状態だけを選ぶ仕組みを**有限状態機械**（Finite State Machine、FSM）と呼びます。**有限オートマトン**とも呼ばれ、情報科学の教科書ではこちらの名前でよく出てきます。ゲーム開発の現場では、単に**ステートマシン**と呼ぶことが多いです。信号機、通信手順、メニュー画面など、ゲーム以外でも使われます。
 
 `EnemyAI_Sample` のボスの状態は次のとおりです。
 
@@ -122,6 +122,60 @@ private void Update()
 ---
 
 状態が3つほどなら、`enum` で現在の状態を表し、`switch` で処理を選ぶ方法が読みやすいです。いきなりクラスに分ける必要はありません。
+
+巡回・追跡・攻撃だけのボスなら、次のように書けます。説明用のコードで、Sample には含まれていません。
+
+```csharp
+private enum BossState
+{
+    Search,
+    Pursue,
+    Attack,
+}
+
+private BossState _state = BossState.Search;
+private float _attackElapsed;
+
+private void Update()
+{
+    float distance = DistanceToTarget;
+
+    switch (_state)
+    {
+        case BossState.Search:
+            Patrol();
+            if (distance <= _detectRange) ChangeState(BossState.Pursue);
+            break;
+
+        case BossState.Pursue:
+            MoveTo(Target.position, _pursueSpeed);
+            if (distance > _loseRange) ChangeState(BossState.Search);
+            else if (distance <= _attackRange) ChangeState(BossState.Attack);
+            break;
+
+        case BossState.Attack:
+            _attackElapsed += Time.deltaTime;
+            if (_attackElapsed >= _attackDuration) ChangeState(BossState.Pursue);
+            break;
+    }
+}
+
+private void ChangeState(BossState next)
+{
+    _state = next;
+
+    if (next == BossState.Attack)
+    {
+        _attackElapsed = 0f;
+        StopMoving();
+        _animator.SetTrigger("Attack");
+    }
+}
+```
+
+`_state` は同時に1つの値しか持てないので、「攻撃中なのに歩き出す」組み合わせは書けなくなります。遷移も `ChangeState` を通るので、攻撃を始めた瞬間の処理は1回だけ実行されます。
+
+ただし、状態を足すときは `enum`、`Update` の `switch`、`ChangeState` の分岐のように、同じクラスの中の複数の場所を直すことになります。`_attackElapsed` のような1つの状態でしか使わない変数も、すべて同じクラスに並びます。
 
 状態ごとの処理が大きくなり、開始と終了の処理が必要になったら分割を検討します。分けるときの単位が、次の3つのタイミングです。
 
