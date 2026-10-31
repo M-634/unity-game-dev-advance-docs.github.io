@@ -16,8 +16,10 @@
 
 | 用途 | シーン |
 | --- | --- |
-| **使用シーン** | 準備中 |
+| **使用シーン** | `Assets/Application/Section2-AIState/EnemyAI/EnemyAI_Work.unity` |
 | **完成見本** | `Assets/Application/Section2-AIState/EnemyAI/EnemyAI_Sample.unity` |
+
+`EnemyAI_Work` のシーン構成は Sample と同じですが、NavMesh は Bake していません。[NavMesh Surface](#navmesh-surface) の手順で Bake するまで、ボスは動きません。
 
 2章で使う Prefab とスクリプトは `Assets/Application/Section2-AIState/` にまとめてあります。
 
@@ -27,12 +29,12 @@
 | `Prefabs/Player.prefab` | `DemoPlayer` の Prefab Variant。操作は共通素材のまま |
 | `Scripts/` | ボスの AI のスクリプト。名前空間は `Section2.AIState` |
 
-`EnemyAI_Sample` のシーン構成は次のとおりです。
+シーン構成は次のとおりです。
 
 | GameObject | 内容 |
 | --- | --- |
 | `Stage` | 床と壁の親。`NavMesh Surface` が付いている |
-| `Stage/Wall_Left` `Wall_Center` `Wall_Right` | ステージを南北に分ける壁。幅 1.8 m の狭い隙間と、幅 5.5 m の広い通路がある |
+| `Stage/Wall_Left` `Wall_Center` `Wall_Right` | ステージを南北に分ける壁。左に幅 1.8 m の狭い隙間、右に幅 5.8 m の広い通路がある |
 | `EnemyBoss` | 北側にいるボス |
 | `PatrolPoints` | ボスが巡回する4地点 |
 | `Player` | 南側から始まる。操作方法は `DemoPlayer` と同じ |
@@ -40,14 +42,16 @@
 !!! warning "Unity を開き直す"
     Agent Type `Boss` は Project Settings の変更です。pull した後は、Unity を開き直してからシーンを開いてください。
 
+`EnemyBoss` の数値を変えるときは、シーン上の値だけを変えます。`EnemyBoss.prefab` へ Apply すると、Sample のボスも変わります。
+
 ## 授業の進め方
 
 ---
 
 1. ゲームの AI を「知覚・判断・経路探索・移動」に分ける。
 2. 地形を探索できる形にする考え方と、NavMesh の役割を確認する。
-3. ボスの体格に合わせた Agent Type を確認し、Bake する。
-4. Sample を再生し、ボスが狭い隙間を避けて広い通路を回ることを確認する。
+3. ボスの体格に合わせた Agent Type を確認し、`EnemyAI_Work` で Bake する。
+4. `EnemyAI_Work` を再生し、ボスが狭い隙間を避けて広い通路を回ることを確認する。
 5. ボスの行動を「何を見て、どの行動に切り替えるか」の表にする。
 6. [Stateパターン](state-pattern.md)で、その表を C# に落とし込む。
 
@@ -105,7 +109,9 @@ Bake は、ステージの形を調べて「歩ける場所の地図」を作る
 
 出来上がった NavMesh は、歩ける面を**凸多角形（ポリゴン）**に分けたデータです。隣り合うポリゴンの情報も持っています。
 
-![Show NavMesh を ON にした EnemyAI_Sample の Scene ビュー。床の上に NavMesh が水色で表示され、壁の周りには面がない](images/navmesh-baked.ping.png)
+![再生中の EnemyAI_Sample の Scene ビュー。ステージと壁、巡回地点、ボスが見えている](images/navmesh-baked.ping.png)
+
+実際の面は、後の「面を見比べる」で確認します。
 
 ゲーム中は、`SetDestination` で目的地を受け取ると、開始地点のポリゴンから目的地のポリゴンまでのつながりを探します。結果はポリゴンの列で、Agent はその中で次に見える曲がり角へ向かいます。近くに他の Agent がいれば、速度を調整して避けます。
 
@@ -166,7 +172,7 @@ Bake では「この半径の円柱が通れる場所」を計算します。標
 
 **Advanced** の **Voxel Size** は、Bake で地形を置き換える箱の大きさです。自動の値は Agent の半径の3分の1で、`Boss` では約 0.37 m です。
 
-**Bake** を押すと面が作られ、`EnemyAI_Sample/NavMesh-Stage.asset` に保存されます。Scene ビューの **AI Navigation** オーバーレイの **Show NavMesh** で、面を表示できます。オーバーレイが見当たらないときは、Scene ビューで `` ` `` キーを押して出るメニューから有効にします。
+`EnemyAI_Work` を開いて **Bake** を押すと面が作られ、シーンと同じ階層の `EnemyAI_Work/NavMesh-Stage.asset` に保存されます。Bake したらシーンも保存します。Scene ビューの **AI Navigation** オーバーレイの **Show NavMesh** で、面を表示できます。オーバーレイが見当たらないときは、Scene ビューで `` ` `` キーを押して出るメニューから有効にします。
 
 ![Scene ビューの AI Navigation オーバーレイ。Show NavMesh にチェックが入っている](images/navmesh-overlay.png){ width="320" }
 
@@ -179,7 +185,7 @@ Collect Objects を `All Game Objects` にすると、シーン上のすべて�
 
 ---
 
-同じステージを、Agent Type だけ変えて Bake した結果です。青い部分が移動できる面で、上が北です。
+同じステージを、Agent Type だけ変えて Bake した結果を真上から見ています。青い部分が移動できる面で、上が北です。
 
 | `Humanoid` で Bake | `Boss` で Bake |
 | --- | --- |
@@ -187,7 +193,7 @@ Collect Objects を `All Game Objects` にすると、シーン上のすべて�
 
 どちらも壁から半径分だけ離れた位置までしか面がありません。`Boss` では半径が大きいので壁際の余白が広がり、幅 1.8 m の隙間は面がなくなります。Agent の中心がこの面の上を動くので、ボスの体は壁にめり込みません。
 
-隙間の南側（`x = -6.3, z = 10`）から北側（`x = -6.3, z = 16`）への経路の長さを比べると、`Humanoid` の面では隙間を抜ける 6.0 m、`Boss` の面では右の通路を回る 29.8 m になります。
+隙間の南側（`x = -6.6, z = 10`）から北側（`x = -6.6, z = 16`）への経路の長さを比べると、`Humanoid` の面では隙間を抜ける 6.0 m、`Boss` の面では右の通路を回る 29.7 m になります。
 
 ### NavMesh Agent
 
@@ -298,7 +304,7 @@ public bool HasArrived =>
 
 ---
 
-`EnemyAI_Sample` を再生し、次を確認します。
+Bake した `EnemyAI_Work` を再生し、次を確認します。
 
 - [ ] ボスが4地点を巡回する
 - [ ] 壁の南側から近づくと、ボスが壁越しに気付いて追ってくる
@@ -320,7 +326,7 @@ public bool HasArrived =>
 
 まず経路表示を見て「道がない」のか「道に沿って動けない」のかを分けます。見た目の結果から、原因となる層を絞る練習です。経路は、Agent を選んだ状態で AI Navigation オーバーレイの **Show Path Polygons** を ON にすると確認できます。
 
-![再生中の Scene ビュー。Show Path Polygons で、ボスが広い通路を回る経路のポリゴンが色付きで表示されている](images/navmesh-path-polygons.png){ width="640" }
+![再生中の Scene ビュー。EnemyBoss を選択し、AI Navigation オーバーレイの Show Path Polygons にチェックを入れている](images/navmesh-path-polygons.png){ width="640" }
 
 ## 関連資料
 

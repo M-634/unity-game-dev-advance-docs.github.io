@@ -18,9 +18,11 @@
 
 | 用途 | シーン・ファイル |
 | --- | --- |
-| **使用シーン** | 準備中 |
+| **使用シーン** | `Assets/Application/Section2-AIState/EnemyAI/EnemyAI_Work.unity` |
 | **完成見本** | `Assets/Application/Section2-AIState/EnemyAI/EnemyAI_Sample.unity` |
 | **読むスクリプト** | `Assets/Application/Section2-AIState/Scripts/`（名前空間 `Section2.AIState`） |
+
+`EnemyAI_Work` は、[キャラクターAI](character-ai.md#navmesh-surface)の手順で Bake してから使います。
 
 | ファイル | 役割 |
 | --- | --- |
@@ -31,6 +33,8 @@
 | `Scripts/Enemy/States/` | 状態1つにつき1クラス |
 
 `EnemyAI_Sample` を再生すると、Scene ビューのボスの足元に、現在の State のクラス名が表示されます（Gizmos を ON にしてください）。
+
+`Scripts/` は課題で直接編集して構いません。`EnemyAI_Sample` も同じスクリプトを使うので、編集すると Sample の動きも変わります。
 
 ## 授業の進め方
 
@@ -258,6 +262,8 @@ namespace Section2.AIState
 `Scripts/Enemy/States/PursueState.cs` を見てみます。
 
 ```csharp
+using UnityEngine;
+
 namespace Section2.AIState
 {
     public sealed class PursueState : IState
@@ -433,8 +439,7 @@ public void OnExit()
 
 ゲームロジックの状態と Animator の State は同じものではありません。`AttackState` が攻撃中でも、Animator は遷移の途中にいる場合があります。Sample では、攻撃の当たり判定を Animator の State 名で判断せず、`AttackState` の経過時間（`HitStartTime`〜`HitEndTime`）で決めています。
 
-!!! note "画像準備中：状態の見える化"
-    Scene ビューのボスと、足元に表示された State 名、検知範囲の円を同時に撮影します。予定画像：`images/enemy-state-debug.png`。
+![再生中の Scene ビュー。ボスの足元に黄・橙・赤の円と、現在の State 名が表示されている](images/enemy-state-debug.png){ width="640" }
 
 ## 関連資料
 
