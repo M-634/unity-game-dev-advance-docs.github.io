@@ -1,4 +1,4 @@
-# C#④ 設計への誘い：MVPパターン
+# C#⑤ 設計への誘い：MVPパターン
 
 [シラバス](../index.md) ｜ 章の課題：4章の課題（準備中）
 
@@ -85,6 +85,42 @@ namespace Section4.Presentation
 
 変更を待つだけでは初期値が表示されないので、接続時に現在値も表示しています。Presenterを組み立てた側が、画面を閉じるときなどにDisposeを呼びます。Unityでの組み立て役とInspectorの参照は、演習シーン完成後に追加します。
 
+### 2章のおさらい：クラス図で読む
+
+---
+
+上のコードを、2章の[集約・合成とクラス図](../s2-ai-state/composition-class-diagram.md)の書き方で描きます。`HealthBarView` は説明用に足した View の実装例です。
+
+```mermaid
+classDiagram
+    class HealthModel {
+        +int Value
+        +Damage(int amount)
+    }
+    class IHealthView {
+        <<interface>>
+        +ShowHealth(int value)
+    }
+    class HealthPresenter {
+        -HealthModel model
+        -IHealthView view
+        +Dispose()
+    }
+    HealthPresenter o-- HealthModel
+    HealthPresenter o-- IHealthView
+    IHealthView <|.. HealthBarView
+    HealthModel ..> HealthPresenter : Changed で通知
+```
+
+| 2章で学んだこと | このコードでは |
+| --- | --- |
+| Interface とポリモーフィズム | Presenter は View を `IHealthView` として扱うので、数値表示とゲージ表示を差し替えられる |
+| 集約 | Presenter は Model と View を自分で作らず、コンストラクタで受け取る |
+| 合成 | Model・View・Presenter をまとめて作る組み立て役が、3つの寿命を管理する |
+| 関連の向き | Model は Presenter の型を知らない。event で通知するだけ |
+
+`HealthModel` から出ている線は、event による通知の点線だけです。**ルールを持つ Model から、表示のクラスへ線が出ていない**ことが、この設計の要点です。
+
 ## 依存の向きとテストしやすさ
 
 ---
@@ -119,11 +155,28 @@ Modelの変更をReactivePropertyなどで公開し、Presenterで購読でき�
 
 DDDは業務・ゲームの意味やルールをモデル化する考え方、クリーンアーキテクチャは依存関係を整理する考え方です。MVPと同じ階層の置き換え候補ではありません。まず「HPルールがUIに依存していないか」という具体的な観点から始めます。
 
+### レイヤーと依存の向き
+
+---
+
+クラスを役割ごとの層（レイヤー）に分けて並べると、依存の向きを確かめやすくなります。
+
+```mermaid
+flowchart TD
+    V["表示・入力の層<br>View、TextMeshPro、入力"] --> P["仲介の層<br>Presenter、組み立て役"]
+    P --> D["ルールの層（ドメイン）<br>HealthModel、ダメージ計算"]
+```
+
+矢印は「知っている・使っている」の向きです。上の層は下の層を使いますが、ルールの層は上の層を知りません。そのため、表示を変えてもルールの層は変わらず、ルールの層だけならシーンを再生せずに確かめられます。
+
+DDD では、この層に置くゲームの言葉（HP、ダメージ、怒り状態など）を、企画とプログラムで同じ意味に揃えることを重視します。
+
 ## 関連資料
 
 ---
 
 - [Interface とポリモーフィズム](../s2-ai-state/interface-polymorphism.md)
+- [集約・合成とクラス図](../s2-ai-state/composition-class-diagram.md)
 - [Observer と R3](r3.md)
 - [付録：イベントと購読の寿命](../appendix/events-lifetime.md)
 

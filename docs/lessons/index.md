@@ -36,13 +36,14 @@
 | | [Timeline(タイムライン)とカットシーン制作](s1-character-camera/timeline.md) | |
 | 2章 | [キャラクターAI](s2-ai-state/character-ai.md) | [2章の課題](problems/s2/index.md) |
 | | [C#① 状態管理(Stateパターン)](s2-ai-state/state-pattern.md) | |
-| | [C#② Interface(インターフェース)とpolymorphism(ポリモーフィズム)](s2-ai-state/interface-polymorphism.md)（準備中） | |
+| | [C#② Interface(インターフェース)とpolymorphism(ポリモーフィズム)](s2-ai-state/interface-polymorphism.md) | |
+| | [C#③ 集約・合成とクラス図](s2-ai-state/composition-class-diagram.md) | |
 | 3章 | [グラフィックス基礎① Lighting](s3-graphics/lighting.md)（準備中）・[Skybox](s3-graphics/skybox.md)（準備中） | 準備中 |
 | | [グラフィックス基礎② Shader](s3-graphics/shader.md)（準備中） | |
 | | [グラフィックス基礎③ PostProcess](s3-graphics/postprocess.md)（準備中） | |
 | | [グラフィックス基礎④ Rendering Pipeline](s3-graphics/srp.md)（準備中） | |
-| 4章 | [C#③ ObserverパターンとR3（Reactive Extensions)](s4-csharp/r3.md)（準備中） | 準備中 |
-| | [C#④ 設計への誘い　MVPパターン](s4-csharp/mvp.md)（準備中） | |
+| 4章 | [C#④ ObserverパターンとR3（Reactive Extensions)](s4-csharp/r3.md)（準備中） | 準備中 |
+| | [C#⑤ 設計への誘い　MVPパターン](s4-csharp/mvp.md)（準備中） | |
 | 5章 | [総合演習](s5-final/final-project.md)（準備中） | 準備中 |
 | 付録 | [New Input Systemの使い方](appendix/input-system.md) | |
 | | [C#発展 CancellationTokenSourceとスキップ処理](appendix/unitask.md) | |
@@ -64,6 +65,7 @@
 | [経路探索とA*](s2-ai-state/pathfinding.md) | グラフと探索の考え方 |
 | [座標・法線・UV・色](s3-graphics/coordinates-color.md) | 描画の共通語 |
 | [delegate・event・購読の寿命](appendix/events-lifetime.md) | 通知と登録解除の基礎 |
+| [fake null と null 判定](appendix/fake-null.md) | Destroy 後の参照と `==`・`?.` の違い |
 
 ## 関連資料
 

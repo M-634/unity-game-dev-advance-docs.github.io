@@ -33,8 +33,9 @@ nav:
           - 2章 キャラクターAIとState管理:
             - キャラクターAI: s2-ai-state/character-ai.md
             - C#① 状態管理(Stateパターン): s2-ai-state/state-pattern.md
-            - C#② Interface とポリモーフィズム（準備中）: s2-ai-state/interface-polymorphism.md
-            - 補足資料：経路探索とA*（準備中）: s2-ai-state/pathfinding.md
+            - C#② Interface とポリモーフィズム: s2-ai-state/interface-polymorphism.md
+            - C#③ 集約・合成とクラス図: s2-ai-state/composition-class-diagram.md
+            - 補足資料：経路探索とA*: s2-ai-state/pathfinding.md
           - 3章 グラフィックスとゲームの絵作り:
             - グラフィックス基礎① Lighting（準備中）: s3-graphics/lighting.md
             - グラフィックス基礎① Skybox（準備中）: s3-graphics/skybox.md
@@ -43,14 +44,15 @@ nav:
             - グラフィックス基礎④ Rendering Pipeline（準備中）: s3-graphics/srp.md
             - 補足資料：座標・法線・UV・色（準備中）: s3-graphics/coordinates-color.md
           - 4章 C#の応用:
-            - C#③ ObserverパターンとR3（準備中）: s4-csharp/r3.md
-            - C#④ 設計への誘い MVPパターン（準備中）: s4-csharp/mvp.md
+            - C#④ ObserverパターンとR3（準備中）: s4-csharp/r3.md
+            - C#⑤ 設計への誘い MVPパターン（準備中）: s4-csharp/mvp.md
           - 5章 総合演習:
             - 総合演習（準備中）: s5-final/final-project.md
       - 付録:
         - New Input Systemの使い方: appendix/input-system.md
         - C#発展 CancellationTokenSourceとスキップ処理: appendix/unitask.md
         - delegate・event・購読の寿命（準備中）: appendix/events-lifetime.md
+        - fake null と UnityEngine.Object の null 判定: appendix/fake-null.md
    - 課題:
       - 課題リスト:
         - 1章課題リスト: problems/s1/index.md
@@ -82,6 +84,10 @@ nav:
             - ２−８ 壁の向こうのプレイヤーには気付かないようにする: problems/s2/s2-8.md
             - ２−９ 離れた相手へ一直線に突進する: problems/s2/s2-9.md
             - ２−１０ 攻略法を見つけられるボスを、行動表から作る: problems/s2/s2-10.md
+            - ２−１１ プレイヤーの攻撃で壊せる木箱を作る: problems/s2/s2-11.md
+            - ２−１２ Mermaid でクラス図を書いてみる: problems/s2/s2-12.md
+            - ２−１３ ボスのスクリプトを、クラス図に描き起こす: problems/s2/s2-13.md
+            - ２−１４ RPGのパーティを、クラス図にする: problems/s2/s2-14.md
 
 
 # theme

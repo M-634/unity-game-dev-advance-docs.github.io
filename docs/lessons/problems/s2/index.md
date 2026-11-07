@@ -1,6 +1,6 @@
 # 2章の課題
 
-[課題について](../index.md) ｜ 関連資料：[キャラクターAI](../../s2-ai-state/character-ai.md)・[C#① 状態管理（Stateパターン）](../../s2-ai-state/state-pattern.md)
+[課題について](../index.md) ｜ 関連資料：[キャラクターAI](../../s2-ai-state/character-ai.md)・[C#① 状態管理（Stateパターン）](../../s2-ai-state/state-pattern.md)・[C#② インターフェースとポリモーフィズム](../../s2-ai-state/interface-polymorphism.md)・[C#③ 集約・合成とクラス図](../../s2-ai-state/composition-class-diagram.md)
 
 ---
 
@@ -18,3 +18,7 @@
 | ２−８ | ★★★★☆ | [壁の向こうのプレイヤーには気付かないようにする](s2-8.md) | [キャラクターAI](../../s2-ai-state/character-ai.md) |
 | ２−９ | ★★★★☆ | [離れた相手へ一直線に突進する](s2-9.md) | [Stateパターン](../../s2-ai-state/state-pattern.md) |
 | ２−１０ | ★★★★★ | [攻略法を見つけられるボスを、行動表から作る](s2-10.md) | [Stateパターン](../../s2-ai-state/state-pattern.md) |
+| ２−１１ | ★★☆☆☆ | [プレイヤーの攻撃で壊せる木箱を作る](s2-11.md) | [インターフェースとポリモーフィズム](../../s2-ai-state/interface-polymorphism.md) |
+| ２−１２ | ★☆☆☆☆ | [Mermaid でクラス図を書いてみる](s2-12.md) | [集約・合成とクラス図](../../s2-ai-state/composition-class-diagram.md) |
+| ２−１３ | ★★★☆☆ | [ボスのスクリプトを、クラス図に描き起こす](s2-13.md) | [集約・合成とクラス図](../../s2-ai-state/composition-class-diagram.md) |
+| ２−１４ | ★★★★☆ | [RPGのパーティを、クラス図にする](s2-14.md) | [集約・合成とクラス図](../../s2-ai-state/composition-class-diagram.md) |
